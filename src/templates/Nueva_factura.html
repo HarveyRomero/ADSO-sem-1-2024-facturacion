@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/css/bootstrap.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js" integrity="sha384-VQqxDN0EQCkWoxt/0vsQvZswzTHUVOImccYmSyhJTp7kGtPed0Qcx8rK9h9YEgx+" crossorigin="anonymous"></script>
+    <title>App facturacion_Harvey Romero</title>
+
+</head>
+<body>
+
+    <h1 style="color: rgb(19, 79, 134);">CompaFact3000</h1>
+    <h1 style="color: rgb(21, 83, 47);">Nueva Factura</h1>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="index.html">INICIO</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  USUARIOS
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="Login_usuario.html">Loguear usuario</a></li>
+                  <li><hr class="dropdown-divider"></li> 
+                  <li><a class="dropdown-item" href="Registro_usuarios.html">Registro Usuarios</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="Lista_usuarios.html">Listar Usuarios</a></li>
+              </ul>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  PRODUCTOS
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="Formulario_Producto.html">Nuevo producto</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="Lista_productos.html">Listar productos</a></li>
+                </ul>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  CLIENTES
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="Clientes.html">Nuevos clientes</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="Lista_clientes.html">Listar clientes</a></li>
+                </ul>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  FACTURACION
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="Nueva_factura.html">Nueva factura</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="Lista_facturas.html">Consultar factura</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+
+<form class="container mt-4" oninput="actualizarTotal()">
+
+
+
+  <div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+      Datos del Cliente
+    </div>
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <label class="form-label">Documento Cliente</label>
+          <input type="number" class="form-control" placeholder="123456" min="0">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Nombre</label>
+          <input type="text" class="form-control">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Correo electrónico</label>
+          <input type="email" class="form-control" placeholder="ejemplo@correo.com">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">No. Celular</label>
+          <input type="number" class="form-control" placeholder="123456" min="0">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <label for="fecha_factura" class="form-label">Fecha</label>
+          <input type="date" class="form-control" id="fecha_factura" placeholder="dd/mm/yyyy">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header bg-success text-white">
+      Detalle de Productos
+    </div>
+    <div class="card-body">
+
+      <div id="productosContainer">
+        <div class="row mb-3 producto-row align-items-end">
+          <div class="col-md-3">
+            <label class="form-label">ID Producto</label>
+            <input type="number" class="form-control" min="1" step="1" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Cantidad</label>
+            <input type="number" class="form-control cantidad" min="1" step="1" required oninput="calcularSubtotal(this)">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Precio unitario</label>
+            <input type="number" class="form-control precio" min="0.01" step="0.01" required oninput="calcularSubtotal(this)">
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Subtotal</label>
+            <input type="text" class="form-control subtotal" readonly value="0.00">
+          </div>
+          <div class="col-md-1">
+            <button type="button" class="btn btn-danger mt-4" onclick="eliminarFila(this)">Eliminar</button>
+          </div>
+        </div>
+      </div>
+
+
+<div class="mb-3">
+  <button type="button" class="btn btn-success" onclick="agregarProducto()">Agregar otro producto</button>
+</div>
+
+<div class="row mb-4">
+  <div class="col-md-4 offset-md-8">
+    <label class="form-label"><strong>Total:</strong></label>
+    <input type="text" class="form-control" id="totalGeneral" readonly value="0.00">
+  </div>
+</div>
+
+<div class="row mb-3">
+  <div class="col-md-4">
+    <label for="paga" class="form-label">Paga</label>
+    <input type="number" class="form-control" id="paga" placeholder="0.00" min="0" step="0.01" oninput="calcularCambio()">
+  </div>
+  <div class="col-md-4">
+    <label for="cambio" class="form-label">Cambio</label>
+    <input type="text" class="form-control" id="cambio" readonly value="0.00">
+  </div>
+</div>
+
+
+  <div class="row mb-2">
+    <div class="col-md-4">
+      <label for="pago" class="form-label">Método de Pago</label>
+      <select id="pago" class="form-select" required>
+        <option selected disabled>Seleccione</option>
+        <option>Tarjeta de crédito</option>
+        <option>Tarjeta débito</option>
+        <option>Efectivo</option>
+        <option>Cheque</option>
+        <option>Bono</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-4 offset-md-4 d-grid gap-2">    
+
+      <button type="submit" class="btn btn-primary" id="btnGenerarFactura" disabled>Generar factura</button>
+      <button type="button" class="btn btn-success" onclick="guardarDatos()">Guardar</button>
+      <button type="button" class="btn btn-warning" onclick="document.querySelector('form').reset();">Borrar</button>
+      <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">Salir</button>
+    </div>
+  </div>
+
+</form>
+
+<!-- Con esto hago botoncito para duplicar celdas de productos -->
+<script>
+  function agregarProducto() {
+    const container = document.getElementById('productosContainer');
+    const nuevaFila = document.createElement('div');
+    nuevaFila.className = 'row mb-3 producto-row align-items-end';
+    nuevaFila.innerHTML = `
+      <div class="col-md-3">
+        <input type="number" class="form-control" placeholder="ID Producto" min="1" step="1" required>
+      </div>
+      <div class="col-md-3">
+        <input type="number" class="form-control cantidad" placeholder="Cantidad" min="1" step="1" required oninput="calcularSubtotal(this)">
+      </div>
+      <div class="col-md-3">
+        <input type="number" class="form-control precio" placeholder="Precio unitario" min="0.01" step="0.01" required oninput="calcularSubtotal(this)">
+      </div>
+      <div class="col-md-2">
+        <input type="text" class="form-control subtotal" readonly value="0.00">
+      </div>
+      <div class="col-md-1">
+        <button type="button" class="btn btn-danger" onclick="eliminarFila(this)">Eliminar</button>
+      </div>`;
+    container.appendChild(nuevaFila);
+    actualizarTotal();
+  }
+  
+  function calcularSubtotal(elemento) {
+    const fila = elemento.closest('.producto-row');
+    const cantidad = parseFloat(fila.querySelector('.cantidad').value) || 0;
+    const precio = parseFloat(fila.querySelector('.precio').value) || 0;
+    const subtotal = cantidad * precio;
+    fila.querySelector('.subtotal').value = subtotal.toFixed(2);
+    actualizarTotal();
+  }
+  
+  function eliminarFila(boton) {
+    boton.closest('.producto-row').remove();
+    actualizarTotal();
+  }
+  
+  function actualizarTotal() {
+  let total = 0;
+  document.querySelectorAll('.subtotal').forEach(input => {
+    total += parseFloat(input.value) || 0;
+  });
+  document.getElementById('totalGeneral').value = total.toFixed(2);
+  calcularCambio(); // Actualiza el cambio si hay un valor en "Paga"
+}
+
+  function calcularCambio() {
+  const total = parseFloat(document.getElementById('totalGeneral').value) || 0;
+  const paga = parseFloat(document.getElementById('paga').value) || 0;
+  const cambio = paga - total;
+
+  document.getElementById('cambio').value = cambio >= 0 ? cambio.toFixed(2) : "0.00";
+}
+
+  </script>
+
+                <h1 style="font-style: italic; font-size: 1.5rem; text-align: center;">
+                  Elaborado por Harvey Romero
+                </h1>
+    
+</body>
+</html>
