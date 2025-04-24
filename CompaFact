@@ -1,0 +1,107 @@
+
+CREATE DATABASE CompaFact;
+USE CompaFact;
+CREATE TABLE Cliente (
+    ID_Cliente       INT AUTO_INCREMENT PRIMARY KEY,
+    nombre           VARCHAR(255) NOT NULL,
+    telefono         INT NOT NULL,
+    direccion        VARCHAR(255) NOT NULL,
+    email            VARCHAR(255) NOT NULL,
+    documento_tipo   ENUM(
+                       'Tarjeta de identidad',
+                       'Cédula de ciudadanía',
+                       'Cédula de extranjería',
+                       'Pasaporte'
+                     ) NOT NULL,
+    documento_numero INT NOT NULL UNIQUE,
+    fecha_nacimiento DATE NOT NULL,
+    ciudad VARCHAR(100) NOT NULL
+);
+
+-- Tabla para Usuario
+CREATE TABLE Usuario (
+  ID_Usuario INT AUTO_INCREMENT PRIMARY KEY,  
+  nombre VARCHAR(255) NOT NULL,  
+  telefono INT NOT NULL,  
+  direccion VARCHAR(255) NOT NULL,  
+  email VARCHAR(255) NOT NULL,  
+  contraseña VARCHAR(255) NOT NULL,  
+  rol ENUM('Administrador', 'Vendedor', 'Bodega') NOT NULL,  
+  fecha_alta DATE NOT NULL,  -- Fecha de alta del usuario
+  documento_tipo ENUM('Cedula de ciudadania', 'Cedula de extranjeria', 'Pasaporte') NOT NULL,  
+  documento_numero INT NOT NULL UNIQUE,  
+  fecha_nacimiento DATE NOT NULL  
+);
+
+-- Tabla para Producto
+CREATE TABLE Producto (
+  ID_Producto INT AUTO_INCREMENT PRIMARY KEY,  
+  Nombre_de_producto VARCHAR(255) NOT NULL, 
+  Descripcion_de_producto TEXT NOT NULL,  
+  codigo_producto INT NOT NULL UNIQUE,  
+  categoria ENUM('Computadoras y Accesorios', 'Celulares y Accesorios', 'Televisores y Audio', 
+                 'Electrodomésticos pequeños', 'Videojuegos y Consolas', 'Redes y Conectividad', 
+                 'Componentes y Repuestos', 'Cámaras y Fotografía', 'Baterías y Cargadores', 
+                 'Otros accesorios') NOT NULL,  -- Categoría del producto
+  stock ENUM('En camino', 'Con Stock', 'Sin Stock') NOT NULL, 
+  precio DECIMAL(10, 2) NOT NULL,  
+  CONSTRAINT UC_codigo_producto UNIQUE (codigo_producto)  
+);
+
+
+-- Tabla para Factura
+CREATE TABLE Factura (
+  ID_factura INT AUTO_INCREMENT PRIMARY KEY,  
+  fecha DATE NOT NULL,  
+  hora TIME NOT NULL,  
+  valor DECIMAL(10, 2) NOT NULL,  
+  ID_Cliente INT,  
+  ID_Usuario INT,  
+  FOREIGN KEY (ID_Cliente) REFERENCES Cliente(ID_Cliente),  
+  FOREIGN KEY (ID_Usuario) REFERENCES Usuario(ID_Usuario)  
+);
+
+-- Tabla para DetalleFactura
+CREATE TABLE DetalleFactura (
+  ID_Detalle INT AUTO_INCREMENT PRIMARY KEY,  
+  ID_Factura INT,  
+  ID_Producto INT,  
+  cantidad INT NOT NULL,  
+  subtotal DECIMAL(10, 2) NOT NULL,  
+  FOREIGN KEY (ID_Factura) REFERENCES Factura(ID_factura),  
+  FOREIGN KEY (ID_Producto) REFERENCES Producto(ID_Producto)  
+);
+
+-- Tabla para TipoPago
+CREATE TABLE TipoPago (
+  ID_Pago INT AUTO_INCREMENT PRIMARY KEY,  
+  monto DECIMAL(10, 2) NOT NULL,  
+  metodoPago ENUM('Efectivo', 'Tarjeta de crédito', 'Tarjeta de débito', 'Transferencia bancaria') NOT NULL,  
+  fecha DATE NOT NULL,  
+  ID_Factura INT,  
+  FOREIGN KEY (ID_Factura) REFERENCES Factura(ID_factura)  
+);
+
+
+INSERT INTO Cliente (nombre, telefono, direccion, email, documento_tipo, documento_numero, fecha_nacimiento, ciudad)
+VALUES 
+('Pedro Perez', 1234567, 'Cl 5 # 12 17', 'pedro.perez@email.com', 'Cédula de ciudadanía', 123456, '1985-02-10', 'Bogota'),
+('Olmedo Lopez Soriano', 3102236236, 'kr 60 # 23-56', 'olmedo.lopez@email.com', 'Cédula de extranjería', 74185232, '1990-07-05', 'Bogota'),
+('Dios Dado Cabello', 3209631234, 'Cl 12 # 63-51', 'dios.dado@email.com', 'Pasaporte', 9634568, '1960-03-16', 'Medellin'),
+('Juan Sebastian Zapatero', 3057946132, 'kr 100 # 03 - 70', 'juan.zapatero@email.com', 'Tarjeta de identidad', 1035632988, '1981-07-31', 'Bogota');
+
+
+INSERT INTO Usuario (
+  nombre, telefono, direccion, email, contraseña, rol, fecha_alta, documento_tipo, documento_numero, fecha_nacimiento
+) VALUES
+('Lorenzo Karman Lopez', 3187946258, 'Cl 10 # 21 77', 'lorenzo.karman@example.com', 'elpatroncito20', 'Administrador', '2025-02-01', 'Cedula de ciudadania', 12300456, '1966-01-07'),
+
+('Andrea Yulima Rodriguez', 3057319852, 'Kr 120 # 11 11', 'andrea.yulima@example.com', 'lamejorvnd-12', 'Vendedor', '2025-03-15', 'Cedula de ciudadania', 1032654985, '1993-03-18'),
+
+('Josele Martin Calamardin', 3119461253, 'Cl 12 sur # 15 -45', 'josele.martin@example.com', 'elven_jose12', 'Vendedor', '2025-03-20', 'Cedula de extranjeria', 85964712, '1997-11-20'),
+
+('Jose Vela Goyes', 3029719735, 'Cl 52 # 85-21', 'jose.vela@example.com', 'elmerojose_96', 'Bodega', '2025-02-12', 'Pasaporte', 7149368, '2000-02-01');
+
+
+
+
