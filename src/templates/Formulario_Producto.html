@@ -1,75 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/css/bootstrap.min.css">
+{% extends 'struc_pagina.html' %}
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js" integrity="sha384-VQqxDN0EQCkWoxt/0vsQvZswzTHUVOImccYmSyhJTp7kGtPed0Qcx8rK9h9YEgx+" crossorigin="anonymous"></script>
-    <title>App facturacion_Harvey Romero</title>
+{% block contenido %}
 
-</head>
-<body>
-  <h1 style="color: rgb(19, 79, 134);">CompaFact3000</h1>
-  <h1 style="color: rgb(102, 96, 96);">Formulario de Productos</h1>
-
-
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="index.html">INICIO</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                USUARIOS
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="Login_usuario.html">Loguear usuario</a></li>
-                <li><hr class="dropdown-divider"></li> 
-                <li><a class="dropdown-item" href="Registro_usuarios.html">Registro Usuarios</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="Lista_usuarios.html">Listar Usuarios</a></li>
-            </ul>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                PRODUCTOS
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="Formulario_Producto.html">Nuevo producto</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="Lista_productos.html">Listar productos</a></li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                CLIENTES
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="Clientes.html">Nuevos clientes</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="Lista_clientes.html">Listar clientes</a></li>
-              </ul>
-            </li>
-
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                FACTURACION
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="Nueva_factura.html">Nueva factura</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="Lista_facturas.html">Consultar factura</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 style="color: rgb(102, 96, 96);">Formulario de Productos</h1>
+    <img src="{{ url_for('static', filename='images/nuevoproducto.jpg') }}" 
+         alt="nuevoprofucto" 
+         style="height: 80px; width: auto;">
+  </div>
 
     <div class="container mt-5">
       <div class="card shadow-lg">
@@ -79,51 +17,127 @@
     
         <div class="card-body">
           <form class="row g-3">
+          <div class="col-md-10">
+             <label for="Nombre_de_producto" class="form-label">Nombre de producto</label>
+             <input 
+              type="text" 
+              class="form-control" 
+              id="Nombre_de_producto" 
+              name="Nombre_de_producto"
+              required
+              minlength="3"
+              maxlength="100">
+              <div class="invalid-feedback">
+                Por favor ingresa un nombre válido (mínimo 3 caracteres)
+              </div>
+              <div class="valid-feedback">
+                ¡Nombre válido!
+              </div>
+            </div>
 
-
-        <div class="col-md-10">
-          <label for="Nombre_de_producto" class="form-label">Nombre de producto</label>
-          <input type="text" class="form-control" id="Nombre_de_producto">
-        </div>
         <div class="col-md-12">
-          <label for="Descripcion_de_producto" class="form-label">Descripcion de producto</label>
-          <input type="text" class="form-control" id="Descripcion_de_producto">
+          <label for="Descripcion_de_producto" class="form-label">Descripción de producto</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="Descripcion_de_producto"
+            name="Descripcion_de_producto"
+            required
+            minlength="10"
+            maxlength="120"
+            placeholder="Ej: Portatil marca X. con memoria Y, pantalla Z">
+          <div class="invalid-feedback">
+            Por favor ingresa una descripción válida (entre 10 y 120 caracteres)
+          </div>
+          <div class="valid-feedback">
+            ¡Descripción válida!
+          </div>
         </div>
-        <div class="col-6">
+
+        <div class="mb-3">
           <label for="codigo_producto" class="form-label">Código Producto</label>
-          <input type="number" class="form-control" id="codigo_producto" placeholder="123456" step="1" min="0">
-        </div>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="codigo_producto" 
+            name="codigo_producto"
+            placeholder="AAA123456" 
+            pattern="[A-Za-z]{3}\d{6}" 
+            title="Formato: 3 letras seguidas de 6 números (Ej: ABC123456)"
+            required
+          >
+          <div class="invalid-feedback">
+            Por favor ingresa un código válido (Ej: ABC123456)
+          </div>
+        </div> 
+
 
         <div class="col-md-4">
-          <label for="categoria" class="form-label">Categoria</label>
-          <select id="categoria" class="form-select">
-            <option selected></option>
-            <option>Computadoras y Accesorios</option>
-            <option>Celulares y Accesorios</option>
-            <option>Televisores y Audio</option>
-            <option>Electrodomésticos pequeños</option>
-            <option>Videojuegos y Consolas</option>
-            <option>Redes y Conectividad</option>
-            <option>Componentes y Repuestos</option>
-            <option>Cámaras y Fotografía</option>
-            <option>Baterías y Cargadores</option>
-            <option>Otros accesorios</option>
+          <label for="categoria" class="form-label">Categoría</label>
+          <select 
+            id="categoria" 
+            class="form-select" 
+            name="categoria"
+            required
+          >
+            <option value="" selected disabled>-- Seleccione una categoría --</option>
+            <option value="computadoras">Computadoras y Accesorios</option>
+            <option value="celulares">Celulares y Accesorios</option>
+            <option value="tv">Televisores y Audio</option>
+            <option value="electrodomesticos">Electrodomésticos pequeños</option>
+            <option value="videojuegos">Videojuegos y Consolas</option>
+            <option value="redes">Redes y Conectividad</option>
+            <option value="componentes">Componentes y Repuestos</option>
+            <option value="camaras">Cámaras y Fotografía</option>
+            <option value="baterias">Baterías y Cargadores</option>
+            <option value="otros">Otros accesorios</option>
           </select>
+          <div class="invalid-feedback">
+            Por favor seleccione una categoría
+          </div>
         </div>
 
+
+
+      
         <div class="col-md-4">
           <label for="stock" class="form-label">Stock</label>
-          <select id="stock" class="form-select">
-            <option selected>- - - - - - -</option>
-            <option>En camino</option>
-            <option>Con Stock</option>
-            <option>Sin Stock</option>
+          <select 
+          id="stock" 
+          class="form-select"
+          name="stock" 
+            required
+          >
+            <option value="" selected disabled>-- Seleccione una opcion --</option>
+            <option value="encamino">En camino</option>
+            <option value="constock">Con Stock</option>
+            <option value="sinstock">Sin Stock</option>
           </select>
+          <div class="invalid-feedback">
+            Por favor seleccione una opcion
+          </div>
         </div>
 
         <div class="col-6">
           <label for="precio" class="form-label">Precio Unitario</label>
-          <input type="number" class="form-control" id="precio" placeholder="0.00" step="0.01" min="0" inputmode="decimal">
+          <div class="input-group has-validation"> 
+            <span class="input-group-text">$</span> 
+            <input 
+              type="number" 
+              class="form-control" 
+              id="precio" 
+              name="precio"
+              placeholder="00.00" 
+              step="0.01" 
+              min="10"  
+              max="99999999.99" 
+              inputmode="decimal"
+              required
+            >
+            <div class="invalid-feedback">
+              Ingrese un valor entre $10 y $999,999.99
+            </div>
+          </div>
         </div>
         
         <div class="col-md-4 offset-md-4 d-grid gap-2 mt-4">
@@ -138,12 +152,52 @@
 </div>
 
 
-      <h1 style="font-style: italic; font-size: 1.5rem; text-align: center;">
-        Elaborado por Harvey Romero
-      </h1>
+<script>
+
+  document.getElementById('Nombre_de_producto').addEventListener('input', function(e) {
+    const nombre = e.target.value.trim();
     
-</body>
-</html>
+    if (nombre.length >= 3) {
+      e.target.classList.remove('is-invalid');
+      e.target.classList.add('is-valid');
+    } else {
+      e.target.classList.remove('is-valid');
+    }
+  });
+  </script>
 
 
+<script>
+  document.getElementById('codigo_producto').addEventListener('input', function(e) {
+    const codigo = e.target.value;
+    const regex = /^[A-Za-z]{3}\d{6}$/;
+    
+    if (regex.test(codigo)) {
+      e.target.classList.remove('is-invalid');
+      e.target.classList.add('is-valid');
+    } else {
+      e.target.classList.remove('is-valid');
+    }
+  });
+</script>
+
+
+<script>
+function validarPrecio(input) {
+  const precio = parseFloat(input.value);
+  const valido = !isNaN(precio) && precio >= 10 && precio <= 99999999.99;
+  
+  input.classList.toggle('is-valid', valido);
+  input.classList.toggle('is-invalid', !valido && input.value !== '');
+  
+  if (valido && input.value.includes('.')) {
+    const decimales = input.value.split('.')[1];
+    if (decimales.length > 2) {
+      input.value = precio.toFixed(2);
+    }
+  }
+}
+</script>
+
+{% endblock contenido %}
     

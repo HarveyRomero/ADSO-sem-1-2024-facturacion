@@ -1,77 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/css/bootstrap.min.css">
+{% extends 'struc_pagina.html' %}
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js" integrity="sha384-VQqxDN0EQCkWoxt/0vsQvZswzTHUVOImccYmSyhJTp7kGtPed0Qcx8rK9h9YEgx+" crossorigin="anonymous"></script>
-    <title>App facturacion_Harvey Romero</title>
+{% block contenido %}
 
-</head>
-<body>
-
-    <h1 style="color: rgb(19, 79, 134);">CompaFact3000</h1>
-    <h1 style="color: rgb(21, 83, 47);">Lista Facturas</h1>
-
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="index.html">INICIO</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  USUARIOS
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="Login_usuario.html">Loguear usuario</a></li>
-                  <li><hr class="dropdown-divider"></li> 
-                  <li><a class="dropdown-item" href="Registro_usuarios.html">Registro Usuarios</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="Lista_usuarios.html">Listar Usuarios</a></li>
-              </ul>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  PRODUCTOS
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="Formulario_Producto.html">Nuevo producto</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="Lista_productos.html">Listar productos</a></li>
-                </ul>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  CLIENTES
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="Clientes.html">Nuevos clientes</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="Lista_clientes.html">Listar clientes</a></li>
-                </ul>
-              </li>
-
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  FACTURACION
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="Nueva_factura.html">Nueva factura</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="Lista_facturas.html">Consultar factura</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-
-      <table class="table">
+<h1 style="color: rgb(21, 83, 47);">Lista Facturas</h1>
+ <table class="table">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -168,15 +100,9 @@
                 <button class="btn btn-danger btn-sm">Borrar</button>
               </td>
             </tr>
-
-
 </tbody>
+</table>
 
-      </table>
+{% endblock contenido %}
 
-      <h1 style="font-style: italic; font-size: 1.5rem; text-align: center;">
-        Elaborado por Harvey Romero
-      </h1>
-    
-</body>
-</html>
+
