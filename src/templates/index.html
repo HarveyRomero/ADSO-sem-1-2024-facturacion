@@ -1,0 +1,13 @@
+{% extends 'struc_pagina.html' %}
+
+{% block contenido %}
+
+<h1 style="color: rgb(102, 96, 96);">BIENVENIDO AL SOFTWARE DE FACTURACION</h1>
+
+<img src="{{ url_for('static', filename='images/imagentienda.jpeg') }}" 
+           alt="CampaTech Logo"
+           width="900"
+           height="auto"  <!-- Mejor práctica para responsive -->
+           
+{% endblock contenido %}
+

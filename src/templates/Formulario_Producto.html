@@ -1,0 +1,203 @@
+{% extends 'struc_pagina.html' %}
+
+{% block contenido %}
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 style="color: rgb(102, 96, 96);">Formulario de Productos</h1>
+    <img src="{{ url_for('static', filename='images/nuevoproducto.jpg') }}" 
+         alt="nuevoprofucto" 
+         style="height: 80px; width: auto;">
+  </div>
+
+    <div class="container mt-5">
+      <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">Datos del Producto</h4>
+        </div>
+    
+        <div class="card-body">
+          <form class="row g-3">
+          <div class="col-md-10">
+             <label for="Nombre_de_producto" class="form-label">Nombre de producto</label>
+             <input 
+              type="text" 
+              class="form-control" 
+              id="Nombre_de_producto" 
+              name="Nombre_de_producto"
+              required
+              minlength="3"
+              maxlength="100">
+              <div class="invalid-feedback">
+                Por favor ingresa un nombre válido (mínimo 3 caracteres)
+              </div>
+              <div class="valid-feedback">
+                ¡Nombre válido!
+              </div>
+            </div>
+
+        <div class="col-md-12">
+          <label for="Descripcion_de_producto" class="form-label">Descripción de producto</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="Descripcion_de_producto"
+            name="Descripcion_de_producto"
+            required
+            minlength="10"
+            maxlength="120"
+            placeholder="Ej: Portatil marca X. con memoria Y, pantalla Z">
+          <div class="invalid-feedback">
+            Por favor ingresa una descripción válida (entre 10 y 120 caracteres)
+          </div>
+          <div class="valid-feedback">
+            ¡Descripción válida!
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="codigo_producto" class="form-label">Código Producto</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="codigo_producto" 
+            name="codigo_producto"
+            placeholder="AAA123456" 
+            pattern="[A-Za-z]{3}\d{6}" 
+            title="Formato: 3 letras seguidas de 6 números (Ej: ABC123456)"
+            required
+          >
+          <div class="invalid-feedback">
+            Por favor ingresa un código válido (Ej: ABC123456)
+          </div>
+        </div> 
+
+
+        <div class="col-md-4">
+          <label for="categoria" class="form-label">Categoría</label>
+          <select 
+            id="categoria" 
+            class="form-select" 
+            name="categoria"
+            required
+          >
+            <option value="" selected disabled>-- Seleccione una categoría --</option>
+            <option value="computadoras">Computadoras y Accesorios</option>
+            <option value="celulares">Celulares y Accesorios</option>
+            <option value="tv">Televisores y Audio</option>
+            <option value="electrodomesticos">Electrodomésticos pequeños</option>
+            <option value="videojuegos">Videojuegos y Consolas</option>
+            <option value="redes">Redes y Conectividad</option>
+            <option value="componentes">Componentes y Repuestos</option>
+            <option value="camaras">Cámaras y Fotografía</option>
+            <option value="baterias">Baterías y Cargadores</option>
+            <option value="otros">Otros accesorios</option>
+          </select>
+          <div class="invalid-feedback">
+            Por favor seleccione una categoría
+          </div>
+        </div>
+
+
+
+      
+        <div class="col-md-4">
+          <label for="stock" class="form-label">Stock</label>
+          <select 
+          id="stock" 
+          class="form-select"
+          name="stock" 
+            required
+          >
+            <option value="" selected disabled>-- Seleccione una opcion --</option>
+            <option value="encamino">En camino</option>
+            <option value="constock">Con Stock</option>
+            <option value="sinstock">Sin Stock</option>
+          </select>
+          <div class="invalid-feedback">
+            Por favor seleccione una opcion
+          </div>
+        </div>
+
+        <div class="col-6">
+          <label for="precio" class="form-label">Precio Unitario</label>
+          <div class="input-group has-validation"> 
+            <span class="input-group-text">$</span> 
+            <input 
+              type="number" 
+              class="form-control" 
+              id="precio" 
+              name="precio"
+              placeholder="00.00" 
+              step="0.01" 
+              min="10"  
+              max="99999999.99" 
+              inputmode="decimal"
+              required
+            >
+            <div class="invalid-feedback">
+              Ingrese un valor entre $10 y $999,999.99
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4 offset-md-4 d-grid gap-2 mt-4">
+          <button type="submit" class="btn btn-primary">Guardar</button>
+          <button type="button" class="btn btn-warning" onclick="document.querySelector('form').reset();">Borrar</button>
+          <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">Salir</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+  document.getElementById('Nombre_de_producto').addEventListener('input', function(e) {
+    const nombre = e.target.value.trim();
+    
+    if (nombre.length >= 3) {
+      e.target.classList.remove('is-invalid');
+      e.target.classList.add('is-valid');
+    } else {
+      e.target.classList.remove('is-valid');
+    }
+  });
+  </script>
+
+
+<script>
+  document.getElementById('codigo_producto').addEventListener('input', function(e) {
+    const codigo = e.target.value;
+    const regex = /^[A-Za-z]{3}\d{6}$/;
+    
+    if (regex.test(codigo)) {
+      e.target.classList.remove('is-invalid');
+      e.target.classList.add('is-valid');
+    } else {
+      e.target.classList.remove('is-valid');
+    }
+  });
+</script>
+
+
+<script>
+function validarPrecio(input) {
+  const precio = parseFloat(input.value);
+  const valido = !isNaN(precio) && precio >= 10 && precio <= 99999999.99;
+  
+  input.classList.toggle('is-valid', valido);
+  input.classList.toggle('is-invalid', !valido && input.value !== '');
+  
+  if (valido && input.value.includes('.')) {
+    const decimales = input.value.split('.')[1];
+    if (decimales.length > 2) {
+      input.value = precio.toFixed(2);
+    }
+  }
+}
+</script>
+
+{% endblock contenido %}
+    
