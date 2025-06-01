@@ -16,8 +16,11 @@
         </div>
     
         <div class="card-body">
-          <form class="row g-3">
-          <div class="col-md-10">
+
+        <form method="POST" action="/Formulario_Producto.html" class="row g-3" novalidate>
+
+
+          <div class="col-md-7">
              <label for="Nombre_de_producto" class="form-label">Nombre de producto</label>
              <input 
               type="text" 
@@ -97,16 +100,13 @@
           </div>
         </div>
 
-
-
-      
         <div class="col-md-4">
           <label for="stock" class="form-label">Stock</label>
           <select 
           id="stock" 
           class="form-select"
           name="stock" 
-            required
+          required
           >
             <option value="" selected disabled>-- Seleccione una opcion --</option>
             <option value="encamino">En camino</option>
@@ -143,7 +143,8 @@
         <div class="col-md-4 offset-md-4 d-grid gap-2 mt-4">
           <button type="submit" class="btn btn-primary">Guardar</button>
           <button type="button" class="btn btn-warning" onclick="document.querySelector('form').reset();">Borrar</button>
-          <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">Salir</button>
+          <button type="button" class="btn btn-secondary"  onclick="window.location.href='/'">
+            Salir
         </div>
 
       </form>

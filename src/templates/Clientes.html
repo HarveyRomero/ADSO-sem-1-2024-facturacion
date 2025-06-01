@@ -11,17 +11,16 @@
           </div>
       
           <div class="card-body">
-            <form class="row g-3">
-      
-             
+            <form method="POST" action="/Clientes.html" class="row g-3" novalidate>
+
               <div class="col-md-12">
                 <label for="Nombre_cliente" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="Nombre_cliente">
+                <input type="text" class="form-control" id="Nombre_cliente" name="Nombre_cliente">
               </div>
   
               <div class="col-md-2">
                 <label for="documento_text" class="form-label">Tipo de documento</label>
-                <select id="documento_text" class="form-select">
+                <select id="documento_text" class="form-select" name="documento_text">
                   <option selected disabled>Selecciona</option>
                   <option>Tarjeta de identidad</option>
                   <option>Cédula de ciudadanía</option>
@@ -32,41 +31,45 @@
       
               <div class="col-md-10">
                 <label for="documento_numero" class="form-label">Número de documento</label>
-                <input type="number" class="form-control" id="documento_numero" placeholder="123456" step="1" min="0">
+                <input type="number" class="form-control" id="documento_numero" name="documento_numero"
+                placeholder="123456" step="1" min="0">
               </div>
       
               
               <div class="col-md-3">
                 <label for="fecha_nacimiento_clien" class="form-label">Fecha de nacimiento</label>
-                <input type="date" class="form-control" id="fecha_nacimiento_clien" placeholder="dd/mm/yyyy">
+                <input type="date" class="form-control" id="fecha_nacimiento_clien" name="fecha_nacimiento_clien"
+                placeholder="dd/mm/yyyy">
               </div>
       
               <div class="col-md-5">
                 <label for="correo_cliente" class="form-label">Correo electrónico</label>
-                <input type="email" class="form-control" id="correo_cliente" placeholder="ejemplo@correo.com" required>
+                <input type="email" class="form-control" id="correo_cliente" name = "correo_cliente"
+                placeholder="ejemplo@correo.com" required>
               </div>
       
               <div class="col-md-4">
                 <label for="numero_celular" class="form-label">No. Celular</label>
-                <input type="number" class="form-control" id="numero_celular" placeholder="3123456789" step="1" min="0">
+                <input type="number" class="form-control" id="numero_celular" name = "numero_celular"
+                placeholder="3123456789" step="1" min="0">
               </div>
       
             
               <div class="col-md-7">
                 <label for="direccion_cliente" class="form-label">Dirección</label>
-                <input type="text" class="form-control" id="direccion_cliente">
+                <input type="text" class="form-control" id="direccion_cliente" name = direccion_cliente>
               </div>
       
               <div class="col-md-5">
                 <label for="ciudad_cliente" class="form-label">Ciudad</label>
-                <input type="text" class="form-control" id="ciudad_cliente">
+                <input type="text" class="form-control" id="ciudad_cliente" name = ciudad_cliente>
               </div>
       
             
               <div class="col-md-4 offset-md-4 d-grid gap-2 mt-4">
                 <button type="submit" class="btn btn-primary">Guardar</button>
                 <button type="button" class="btn btn-warning" onclick="document.querySelector('form').reset();">Borrar</button>
-                <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">Salir</button>
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='/'">Salir</button>
               </div>
       
             </form>

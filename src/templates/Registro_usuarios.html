@@ -18,82 +18,276 @@
         </div>
     
         <div class="card-body">
-          <form class="row g-3">
 
-        <div class="col-md-3">
-          <label for="fecha_alta" class="form-label">Fecha de alta</label>
-          <input type="date" class="form-control" id="fecha_alta" placeholder="dd/mm/yyyy">
+        <form method="POST" action="/Registro_usuarios.html" class="row g-3" novalidate>
+
+        <div class="col-md-7">
+             <label for="Nombre_de_usu" class="form-label">Nombre del usuario</label>
+             <input 
+              type="text" 
+              class="form-control" 
+              id="Nombre_de_usu" 
+              name="Nombre_de_usu"
+              required
+              minlength="15"
+              maxlength="100"
+              required>
+              <div class="invalid-feedback">
+                Por favor ingresa un nombre válido (mínimo 15 caracteres)
+              </div>
+              <div class="valid-feedback">
+                ¡Nombre válido!
+              </div>
+            </div>
+
+      <div class="col-md-2">
+        <label for="documento_tipo" class="form-label">Tipo de documento</label>
+        <select 
+          id="documento_tipo" 
+          name="documento_tipo"
+          class="form-select"
+          required
+        >
+          <option value="" selected disabled>-- Seleccione una opcion --</option>
+          <option>Cedula de ciudadania</option>
+          <option>Cedula de extranjeria</option>
+          <option>Pasaporte</option>
+        </select>
+        <div class="invalid-feedback">
+          Por favor seleccione un tipo de documento.
         </div>
+      </div>
 
-        <div class="col-md-2">
-            <label for="documento_us" class="form-label">Tipo de documento</label>
-            <select id="documento_us" class="form-select">
-              <option selected></option>
-              <option>Cedula de ciudadania</option>
-              <option>Cedula de extranjeria</option>
-              <option>Pasaporte</option>
-            </select>
-          </div>
 
-        <div class="col-md-3">
-          <label for="documento_us" class="form-label">Documento</label>
-          <input type="number" class="form-control" id="documento_us" placeholder="123456" step="1" min="0">
+    <div class="col-md-3">
+        <label for="documento_us" class="form-label">Documento</label>
+        <input type="number" class="form-control" id="documento_us" name="documento_us" 
+          placeholder="12345" step="1"  min="1"required >
+      <div class="invalid-feedback">
+        Por favor ingrese un número de documento válido (mínimo 5 dígitos).
+      </div>
+      <div class="valid-feedback">
+        Documento válido.
+      </div>
+    </div>
+
+      <div class="col-md-3">
+      <label for="fecha_nacimiento_u" class="form-label">Fecha de nacimiento</label>
+      <input 
+      type="date" 
+      class="form-control" 
+      id="fecha_nacimiento_u" 
+      name="fecha_nacimiento_u"
+      placeholder="dd/mm/yyyy"
+      required
+      >
+      <div class="invalid-feedback">
+      Por favor seleccione una fecha válida.
+      </div>
+      </div>
+
+    <div class="col-md-5">
+      <label for="correo_us" class="form-label">Correo electrónico</label>
+      <input 
+        type="email" 
+        class="form-control" 
+        id="correo_us" 
+        name="correo_us"
+        placeholder="ejemplo@correo.com" 
+        required
+      >
+      <div class="invalid-feedback">
+        Por favor ingresa un correo válido.
+      </div>
+      <div class="valid-feedback">
+        ¡Correo válido!
+      </div>
+    </div>
+
+    <div class="col-md-3">
+        <label for="numero_celular_us" class="form-label">No. Celular</label>
+        <input type="number" class="form-control" id="numero_celular_us" name = "numero_celular_us"
+        placeholder="1234567" step="1" min="1"
+        required>
+        <div class="invalid-feedback">
+        Por favor ingrese un número celular valido.
         </div>
-
-        <div class="col-md-3">
-            <label for="fecha_nacimiento_us" class="form-label">Fecha de nacimiento</label>
-            <input type="date" class="form-control" id="fecha_nacimiento_us" placeholder="dd/mm/yyyy">
-          </div>
-
-          <div class="col-md-5">
-            <label for="correo_us" class="form-label">Correo electrónico</label>
-            <input type="email" class="form-control" id="correo_us" placeholder="ejemplo@correo.com" required>
-          </div>
-
-        <div class="col-md-3">
-            <label for="numero_celular_us" class="form-label">No. Celular</label>
-            <input type="number" class="form-control" id="numero_celular_us" placeholder="123456" step="1" min="0">
+        <div class="valid-feedback">
+        Celular válido.
         </div>
+      </div>
 
-        <div class="col-7">
-            <label for="direccion_us" class="form-label">Direccion</label>
-            <input type="text" class="form-control" id="direccion_us" >
+
+      <div class="col-7">
+        <label for="direccion_us" class="form-label">Dirección</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          id="direccion_us" 
+          name="direccion_us"
+          required 
+          minlength="10">
+        <div class="invalid-feedback">
+          La dirección debe tener al menos 10 caracteres.
         </div>
+        <div class="valid-feedback">
+          ¡Dirección válida!
+        </div>
+      </div>
 
         <div class="col-3">
             <label for="ciudad_us" class="form-label">Ciudad</label>
-            <input type="text" class="form-control" id="ciudad_us" >
+            <input type="text" class="form-control" id="ciudad_us" name="ciudad_us"
+          required 
+          minlength="4"
+            required>
+        <div class="invalid-feedback">
+          La ciudad debe tener minimo 4 caracteres.
         </div>
+        <div class="valid-feedback">
+          ¡Ciudad válida!
+        </div>
+      </div>
 
         <div class="col-3">
           <label for="usuario" class="form-label">Usuario</label>
-          <input type="text" class="form-control" id="usuario" >
+          <input type="text" class="form-control" id="usuario" name="usuario"
+          required>
+        <div class="invalid-feedback">
+          El usuario debe ser de minimo 7 caracteres.
+        </div>
+        <div class="valid-feedback">
+          ¡Usuario valido!
+        </div>
       </div>
 
-      <div class="col-3">
+      <div class="col-3"> 
         <label for="Clave" class="form-label">Clave</label>
-        <input type="password" class="form-control" id="Clave">
+        <input type="password" 
+              class="form-control" 
+              id="Clave" 
+              name="Clave"
+              required 
+              minlength="6">
+        <div class="invalid-feedback">
+          La clave debe tener al menos 6 caracteres.
+        </div>
+        <div class="valid-feedback">
+          ¡Clave válida!
+        </div>
       </div>
 
-    <div class="col-md-2">
-      <label for="rol_us" class="form-label">Rol</label>
-      <select id="rol_us" class="form-select">
-        <option selected></option>
-        <option>Administrador</option>
-        <option>Vendedor</option>
-        <option>Bodega</option>
-      </select>
-    </div>
+      <div class="col-md-2">
+        <label for="rol_us" class="form-label">Rol</label>
+        <select id="rol_us" class="form-select" name="rol_us" required>
+          <option value="" selected disabled>-- Seleccione una opcion --</option>
+          <option>Administrador</option>
+          <option>Vendedor</option>
+          <option>Bodega</option>
+        </select>
+        <div class="invalid-feedback">
+          Por favor seleccione un rol.
+        </div>
+      </div>
 
 
     <div class="col-md-4 offset-md-4 d-grid gap-2 mt-4">
       <button type="submit" class="btn btn-primary">Guardar</button>
       <button type="button" class="btn btn-warning" onclick="document.querySelector('form').reset();">Borrar</button>
-      <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">Salir</button>
+      <button type="button" class="btn btn-secondary" 
+        onclick="window.location.href='/'">
+    Salir
+</button>
     </div>
 
   </form>
 </div>
 </div>
 </div>
+
+<script>
+
+  document.getElementById('Nombre_de_usu').addEventListener('input', function(e) {
+    const nombre = e.target.value.trim();
+    
+    if (nombre.length >= 15) {
+      e.target.classList.remove('is-invalid');
+      e.target.classList.add('is-valid');
+    } else {
+      e.target.classList.remove('is-valid');
+    }
+  });
+  </script>
+
+
+<script>
+  document.getElementById('documento_us').addEventListener('input', function () {
+    const valor = this.value.trim();
+    const esValido = /^\d{5,}$/.test(valor) && parseInt(valor) > 0;
+    
+    this.classList.toggle('is-valid', esValido);
+    this.classList.toggle('is-invalid', !esValido);
+  });
+</script>
+
+
+<script>
+  const hoy = new Date().toISOString().split("T")[0];
+  document.getElementById("fecha_alta").value = hoy;
+  document.getElementById("fecha_nacimiento_u").setAttribute("max", hoy);
+</script>
+
+
+
+<script>
+  document.getElementById('correo_us').addEventListener('input', function () {
+    const correo = this.value.trim();
+    const regexCorreo = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const esValido = regexCorreo.test(correo);
+
+    this.classList.toggle('is-valid', esValido);
+    this.classList.toggle('is-invalid', !esValido);
+  });
+</script>
+
+<script>
+  document.getElementById('numero_celular_us').addEventListener('input', function () {
+    const valor = this.value.trim();
+    const esValido = /^\d{7,}$/.test(valor) && parseInt(valor) > 0;
+    
+    this.classList.toggle('is-valid', esValido);
+    this.classList.toggle('is-invalid', !esValido);
+  });
+</script>
+
+<script>
+  document.getElementById('direccion_us').addEventListener('input', function () {
+    const valor = this.value.trim();
+    const esValido = valor.length >= 10;
+
+    this.classList.toggle('is-valid', esValido);
+    this.classList.toggle('is-invalid', !esValido);
+  });
+</script>
+
+<script>
+  document.getElementById('ciudad_us').addEventListener('input', function () {
+    const valor = this.value.trim();
+    const esValido = valor.length >= 4;
+
+    this.classList.toggle('is-valid', esValido);
+    this.classList.toggle('is-invalid', !esValido);
+  });
+</script>
+
+<script>
+  document.getElementById('usuario').addEventListener('input', function () {
+    const valor = this.value.trim();
+    const esValido = valor.length >= 7;
+
+    this.classList.toggle('is-valid', esValido);
+    this.classList.toggle('is-invalid', !esValido);
+  });
+</script>
+
 {% endblock contenido %}
