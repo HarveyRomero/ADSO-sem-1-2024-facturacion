@@ -1,0 +1,38 @@
+from sqlalchemy import Column, Integer, String, Text, Numeric, ForeignKey
+from sqlalchemy.orm import relationship
+from src.models.base import Session, ModeloBase
+
+class Producto(ModeloBase):
+    __tablename__ = 'Producto'  
+        
+    ID_Producto = Column(Integer, primary_key=True, autoincrement=True)
+    Nombre_de_producto = Column(String(255), nullable=False)
+    Descripcion_de_producto = Column(Text, nullable=False)
+    codigo_producto = Column(String(9), unique=True)
+    cantidad = Column(Integer, nullable=False)
+    precio = Column(Numeric(10, 2), nullable=False)
+        
+    categoria_id = Column(Integer, ForeignKey('categoria.id'))
+    categoria_rel = relationship('Categoria', back_populates='productos')
+    detalles = relationship('DetalleFactura', back_populates="producto")
+
+    def __init__(self, Nombre_de_producto, Descripcion_de_producto, 
+        codigo_producto, cantidad, precio, categoria_id):
+        self.Nombre_de_producto = Nombre_de_producto
+        self.Descripcion_de_producto = Descripcion_de_producto
+        self.codigo_producto = codigo_producto
+        self.cantidad = cantidad
+        self.precio = precio
+        self.categoria_id = categoria_id
+
+    @classmethod
+    def crear_producto(cls,producto):
+        session = Session()
+        session.add(producto)
+        session.commit()
+        return producto
+
+    @classmethod
+    def traer_productos(cls):
+        session = Session()
+        return session.query(cls).all()
