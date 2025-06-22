@@ -50,7 +50,7 @@
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="Formulario_Producto.html">Nuevo producto</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="Lista_productos.html">Listar productos</a></li>
+              <li><a class="dropdown-item" href="lista_productos.html">Listar productos</a></li>
             </ul>
           </li>
           
@@ -70,7 +70,7 @@
               FACTURACIÓN
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="Nueva_factura.html">Nueva factura</a></li>
+              <li><a class="dropdown-item" href="Nueva_factura.html">Facturacion</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="Lista_facturas.html">Consultar factura</a></li>
             </ul>
@@ -79,22 +79,24 @@
       </div>
     </div>
   </nav>
-  
-  <style>
-    .more-sugar-text {
-      font-family: 'Comic Neue', cursive;
-      background: linear-gradient(45deg, #3724a3, #3b33817e);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-weight: 800;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-      font-size: 2rem;
-      letter-spacing: 1px;
-      line-height: 1;
-      display: inline-block;
-    }
-  
-    @media (max-width: 992px) {
+
+<style>
+  .more-sugar-text {
+    font-family: 'Comic Neue', cursive;
+    background: linear-gradient(45deg, #3724a3, #3b33817e);
+    -webkit-background-clip: text; 
+    background-clip: text; 
+    -webkit-text-fill-color: transparent; 
+    color: transparent; 
+    font-weight: 800;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    font-size: 2rem;
+    letter-spacing: 1px;
+    line-height: 1;
+    display: inline-block;
+  }
+
+      @media (max-width: 992px) {
       .more-sugar-text {
         font-size: 1.5rem;
       }
@@ -102,10 +104,10 @@
         display: none !important;
       }
     }
-  </style>
+</style>
 
-  
-      {% block contenido %}
+
+{% block contenido %}
       {% endblock %}
 
       <h1 style="font-style: italic; font-size: 1.5rem; text-align: center;">
@@ -114,3 +116,4 @@
 
 </body>
 </html>
+

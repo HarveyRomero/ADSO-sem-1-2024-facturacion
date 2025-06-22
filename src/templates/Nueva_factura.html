@@ -1,179 +1,162 @@
 {% extends 'struc_pagina.html' %}
 
 {% block contenido %}
+<h1 class="text-success">Facturacion</h1>
 
-<h1 style="color: rgb(21, 83, 47);">Nueva Factura</h1>
-<form class="container mt-4" oninput="actualizarTotal()">
-<div class="card mb-4">
-    <div class="card-header bg-primary text-white">
-      Datos del Cliente
-    </div>
-    <div class="card-body">
-      <div class="row mb-3">
-        <div class="col-md-3">
-          <label class="form-label">Documento Cliente</label>
-          <input type="number" class="form-control" placeholder="123456" min="0">
-        </div>
-        <div class="col-md-3">
-          <label class="form-label">Nombre</label>
-          <input type="text" class="form-control">
-        </div>
-        <div class="col-md-3">
-          <label class="form-label">Correo electrónico</label>
-          <input type="email" class="form-control" placeholder="ejemplo@correo.com">
-        </div>
-        <div class="col-md-3">
-          <label class="form-label">No. Celular</label>
-          <input type="number" class="form-control" placeholder="123456" min="0">
-        </div>
+<form class="container mt-4" oninput="actualizarTotal()" method="POST">
+
+
+  <div class="card mb-4">
+    <div class="card-header bg-primary text-white">Datos del Cliente</div>
+    <div class="card-body row g-3">
+      <div class="col-md-3">
+        <label class="form-label">Documento Cliente</label>
+        <input type="number" class="form-control" name="documento_cliente" required>
       </div>
-
-      <div class="row">
-        <div class="col-md-4">
-          <label for="fecha_factura" class="form-label">Fecha</label>
-          <input type="date" class="form-control" id="fecha_factura" placeholder="dd/mm/yyyy">
-        </div>
+      <div class="col-md-3">
+        <label class="form-label">Nombre</label>
+        <input type="text" class="form-control" name="nombre_cliente" required>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Correo</label>
+        <input type="email" class="form-control" name="correo_cliente" required>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Celular</label>
+        <input type="tel" class="form-control" name="celular_cliente" required>
       </div>
     </div>
   </div>
 
+  <!-- DETALLE DE PRODUCTOS -->
   <div class="card mb-4">
-    <div class="card-header bg-success text-white">
-      Detalle de Productos
-    </div>
+    <div class="card-header bg-success text-white">Productos</div>
     <div class="card-body">
-
       <div id="productosContainer">
-        <div class="row mb-3 producto-row align-items-end">
+        <!-- Fila de producto -->
+        <div class="row g-3 producto-row mb-3 align-items-end">
           <div class="col-md-3">
             <label class="form-label">ID Producto</label>
-            <input type="number" class="form-control" min="1" step="1" required>
+            <input type="number" class="form-control" name="producto_id[]" required>
           </div>
           <div class="col-md-3">
             <label class="form-label">Cantidad</label>
-            <input type="number" class="form-control cantidad" min="1" step="1" required oninput="calcularSubtotal(this)">
+            <input type="number" class="form-control cantidad" name="producto_cantidad[]" min="1" oninput="calcularSubtotal(this)" required>
           </div>
           <div class="col-md-3">
-            <label class="form-label">Precio unitario</label>
-            <input type="number" class="form-control precio" min="0.01" step="0.01" required oninput="calcularSubtotal(this)">
+            <label class="form-label">Precio Unitario</label>
+            <input type="number" class="form-control precio" name="producto_precio[]" step="0.01" oninput="calcularSubtotal(this)" required>
           </div>
           <div class="col-md-2">
             <label class="form-label">Subtotal</label>
-            <input type="text" class="form-control subtotal" readonly value="0.00">
+            <input type="text" class="form-control subtotal" name="producto_subtotal[]" readonly value="0.00">
           </div>
           <div class="col-md-1">
-            <button type="button" class="btn btn-danger mt-4" onclick="eliminarFila(this)">Eliminar</button>
+            <button type="button" class="btn btn-danger" onclick="eliminarFila(this)">✖</button>
           </div>
         </div>
       </div>
-
-
-<div class="mb-3">
-  <button type="button" class="btn btn-success" onclick="agregarProducto()">Agregar otro producto</button>
-</div>
-
-<div class="row mb-4">
-  <div class="col-md-4 offset-md-8">
-    <label class="form-label"><strong>Total:</strong></label>
-    <input type="text" class="form-control" id="totalGeneral" readonly value="0.00">
-  </div>
-</div>
-
-<div class="row mb-3">
-  <div class="col-md-4">
-    <label for="paga" class="form-label">Paga</label>
-    <input type="number" class="form-control" id="paga" placeholder="0.00" min="0" step="0.01" oninput="calcularCambio()">
-  </div>
-  <div class="col-md-4">
-    <label for="cambio" class="form-label">Cambio</label>
-    <input type="text" class="form-control" id="cambio" readonly value="0.00">
-  </div>
-</div>
-
-
-  <div class="row mb-2">
-    <div class="col-md-4">
-      <label for="pago" class="form-label">Método de Pago</label>
-      <select id="pago" class="form-select" required>
-        <option selected disabled>Seleccione</option>
-        <option>Tarjeta de crédito</option>
-        <option>Tarjeta débito</option>
-        <option>Efectivo</option>
-        <option>Cheque</option>
-        <option>Bono</option>
-      </select>
+      <button type="button" class="btn btn-outline-success" onclick="agregarProducto()">+ Agregar producto</button>
     </div>
   </div>
 
-  <div class="row mb-4">
-    <div class="col-md-4 offset-md-4 d-grid gap-2">    
+  <!-- DETALLES DE FACTURA -->
+  <div class="card mb-4">
+    <div class="card-header bg-info text-white">Detalles de Factura</div>
+    <div class="card-body row g-3">
 
-      <button type="submit" class="btn btn-primary" id="btnGenerarFactura" disabled>Generar factura</button>
-      <button type="button" class="btn btn-success" onclick="guardarDatos()">Guardar</button>
-      <button type="button" class="btn btn-warning" onclick="document.querySelector('form').reset();">Borrar</button>
-      <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">Salir</button>
+      <div class="row g-3 mb-3">
+        <div class="col-md-4">
+          <label for="ID_Factura" class="form-label">ID Factura</label>
+          <input type="number" class="form-control" id="ID_Factura" name="ID_Factura" min="1" required>
+        </div>
+        <div class="col-md-4">
+          <label for="ID_usuario" class="form-label">ID Usuario</label>
+          <input type="number" class="form-control" id="ID_usuario" name="ID_usuario" min="1" required>
+        </div>
+        <div class="col-md-4">
+          <label for="ID_cliente" class="form-label">ID Cliente</label>
+          <input type="number" class="form-control" id="ID_cliente" name="ID_cliente" required>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <label for="fecha_factura" class="form-label">Fecha</label>
+        <input type="date" class="form-control" id="fecha_factura" name="fecha_factura" required>
+      </div>
+
+      <div class="col-md-3">
+        <label for="hora_factura" class="form-label">Hora</label>
+        <input type="time" class="form-control" id="hora_factura" name="hora_factura" required>
+      </div>
+
+      <div class="col-md-4 offset-md-8">
+        <label class="form-label">Subtotal General</label>
+        <input type="text" class="form-control" id="totalGeneral" name="subtotal_general" readonly value="0.00">
+      </div>
+
+    <div class="col-md-4 offset-md-8">
+      <label class="form-label">% IVA</label>
+      <input type="number" class="form-control" id="iva"
+             name="iva" step="0.01" min="0" max="100"
+             oninput="actualizarTotal()" placeholder="0">
+    </div>
+
+      <div class="col-md-4 offset-md-8">
+      <label class="form-label">% Descuento</label>
+      <input type="number" class="form-control" id="descuento"
+             name="descuento" step="0.01" min="0" max="100"
+             oninput="actualizarTotal()" placeholder="0">
+    </div>
+
+    <div class="col-md-3 offset-md-8">
+      <label class="form-label"><strong>Total con IVA/Desc.</strong></label>
+      <input type="text" class="form-control" id="total_final"
+             name="total_final" readonly value="0.00">
+    </div>
+
+  <!-- Subtotales / IVA / Descuento / Cambio EN UNA MISMA FILA -->
+  <div class="row g-3 mb-3">
+    <div class="col-md-6">
+      <label class="form-label">Método de Pago</label>
+      <select id="pago" class="form-select" name="metodo_pago" required>
+        <option disabled selected>Seleccione</option>
+        <option>Efectivo</option>
+        <option>Tarjeta Débito</option>
+        <option>Tarjeta Crédito</option>
+        <option>Transferencia</option>
+      </select>
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Valor Pagado</label>
+      <input type="number" class="form-control" id="paga"
+             name="valor_pagado" step="0.01" oninput="calcularCambio()"
+             required>
+    </div>
+ </div>
+
+    <div class="col-md-4 offset-md-8">
+      <label class="form-label">Cambio</label>
+      <input type="text" class="form-control" id="cambio"
+             name="cambio" readonly value="0.00">
+    </div>
+  
+
+<div class="text-center mb-4">
+    <button type="submit" class="btn btn-primary">Guardar Factura</button>
+  </div>
+
+
+  <!-- BOTONES -->
+  <div class="row mb-4">
+    <div class="col-md-4 offset-md-4 d-grid gap-2">
+      <button type="submit" class="btn btn-primary">Generar Factura</button>
+      <button type="button" class="btn btn-warning" onclick="document.querySelector('form').reset()">Limpiar</button>
+      <button type="button" class="btn btn-secondary" onclick="window.location.href='/'">Salir</button>
     </div>
   </div>
 
 </form>
-
-<!-- Con esto hago botoncito para duplicar celdas de productos -->
-<script>
-  function agregarProducto() {
-    const container = document.getElementById('productosContainer');
-    const nuevaFila = document.createElement('div');
-    nuevaFila.className = 'row mb-3 producto-row align-items-end';
-    nuevaFila.innerHTML = `
-      <div class="col-md-3">
-        <input type="number" class="form-control" placeholder="ID Producto" min="1" step="1" required>
-      </div>
-      <div class="col-md-3">
-        <input type="number" class="form-control cantidad" placeholder="Cantidad" min="1" step="1" required oninput="calcularSubtotal(this)">
-      </div>
-      <div class="col-md-3">
-        <input type="number" class="form-control precio" placeholder="Precio unitario" min="0.01" step="0.01" required oninput="calcularSubtotal(this)">
-      </div>
-      <div class="col-md-2">
-        <input type="text" class="form-control subtotal" readonly value="0.00">
-      </div>
-      <div class="col-md-1">
-        <button type="button" class="btn btn-danger" onclick="eliminarFila(this)">Eliminar</button>
-      </div>`;
-    container.appendChild(nuevaFila);
-    actualizarTotal();
-  }
-  
-  function calcularSubtotal(elemento) {
-    const fila = elemento.closest('.producto-row');
-    const cantidad = parseFloat(fila.querySelector('.cantidad').value) || 0;
-    const precio = parseFloat(fila.querySelector('.precio').value) || 0;
-    const subtotal = cantidad * precio;
-    fila.querySelector('.subtotal').value = subtotal.toFixed(2);
-    actualizarTotal();
-  }
-  
-  function eliminarFila(boton) {
-    boton.closest('.producto-row').remove();
-    actualizarTotal();
-  }
-  
-  function actualizarTotal() {
-  let total = 0;
-  document.querySelectorAll('.subtotal').forEach(input => {
-    total += parseFloat(input.value) || 0;
-  });
-  document.getElementById('totalGeneral').value = total.toFixed(2);
-  calcularCambio(); // Actualiza el cambio si hay un valor en "Paga"
-}
-
-  function calcularCambio() {
-  const total = parseFloat(document.getElementById('totalGeneral').value) || 0;
-  const paga = parseFloat(document.getElementById('paga').value) || 0;
-  const cambio = paga - total;
-
-  document.getElementById('cambio').value = cambio >= 0 ? cambio.toFixed(2) : "0.00";
-}
-
-  </script>
 
 {% endblock contenido %}

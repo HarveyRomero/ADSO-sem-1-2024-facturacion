@@ -19,6 +19,17 @@
     
         <div class="card-body">
 
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
         <form method="POST" action="/Registro_usuarios.html" class="row g-3" novalidate>
 
         <div class="col-md-7">
@@ -107,7 +118,7 @@
     <div class="col-md-3">
         <label for="numero_celular_us" class="form-label">No. Celular</label>
         <input type="number" class="form-control" id="numero_celular_us" name = "numero_celular_us"
-        placeholder="1234567" step="1" min="1"
+        autocomplete="off" placeholder="1234567" step="1" min="1"
         required>
         <div class="invalid-feedback">
         Por favor ingrese un número celular valido.
@@ -191,19 +202,23 @@
       </div>
 
 
-    <div class="col-md-4 offset-md-4 d-grid gap-2 mt-4">
-      <button type="submit" class="btn btn-primary">Guardar</button>
+
+<div class="col-md-4 offset-md-4 d-grid gap-2 mt-4">
+      <button type="submit" class="btn btn-primary" id="btnGuardar" disabled>Guardar</button>
       <button type="button" class="btn btn-warning" onclick="document.querySelector('form').reset();">Borrar</button>
       <button type="button" class="btn btn-secondary" 
         onclick="window.location.href='/'">
     Salir
 </button>
-    </div>
+</div>
 
   </form>
 </div>
 </div>
 </div>
+
+
+
 
 <script>
 
@@ -289,5 +304,44 @@
     this.classList.toggle('is-invalid', !esValido);
   });
 </script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
+    const submitBtn = document.getElementById("btnGuardar");
+
+    form.addEventListener("input", function () {
+      const campos = form.querySelectorAll("input[required], select[required]");
+      let todosCompletos = true;
+
+      campos.forEach(function (campo) {
+        if (!campo.value.trim()) {
+          todosCompletos = false;
+        }
+      });
+
+      submitBtn.disabled = !todosCompletos;
+    });
+
+
+    form.addEventListener("submit", function (e) {
+      const campos = form.querySelectorAll("input[required], select[required]");
+      let todosCompletos = true;
+
+      campos.forEach(function (campo) {
+        if (!campo.value.trim()) {
+          todosCompletos = false;
+        }
+      });
+
+      if (!todosCompletos) {
+        e.preventDefault();
+        alert("Por favor, completa todos los campos obligatorios.");
+      }
+    });
+  });
+</script>
+
 
 {% endblock contenido %}

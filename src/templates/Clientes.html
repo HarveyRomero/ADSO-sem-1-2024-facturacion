@@ -10,7 +10,19 @@
             <h4 class="mb-0">Datos del Cliente</h4>
           </div>
       
-          <div class="card-body">
+<div class="card-body">
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
             <form method="POST" action="/Clientes.html" class="row g-3" novalidate>
 
               <div class="col-md-12">
@@ -32,14 +44,14 @@
               <div class="col-md-10">
                 <label for="documento_numero" class="form-label">Número de documento</label>
                 <input type="number" class="form-control" id="documento_numero" name="documento_numero"
-                placeholder="123456" step="1" min="0">
+                placeholder="123456" step="1" min="0" required>
               </div>
       
               
               <div class="col-md-3">
                 <label for="fecha_nacimiento_clien" class="form-label">Fecha de nacimiento</label>
                 <input type="date" class="form-control" id="fecha_nacimiento_clien" name="fecha_nacimiento_clien"
-                placeholder="dd/mm/yyyy">
+                placeholder="dd/mm/yyyy" required>
               </div>
       
               <div class="col-md-5">
@@ -51,23 +63,23 @@
               <div class="col-md-4">
                 <label for="numero_celular" class="form-label">No. Celular</label>
                 <input type="number" class="form-control" id="numero_celular" name = "numero_celular"
-                placeholder="3123456789" step="1" min="0">
+                placeholder="3123456789" step="1" min="0" required>
               </div>
       
             
               <div class="col-md-7">
                 <label for="direccion_cliente" class="form-label">Dirección</label>
-                <input type="text" class="form-control" id="direccion_cliente" name = direccion_cliente>
+                <input type="text" class="form-control" id="direccion_cliente" name = direccion_cliente required>
               </div>
       
               <div class="col-md-5">
                 <label for="ciudad_cliente" class="form-label">Ciudad</label>
-                <input type="text" class="form-control" id="ciudad_cliente" name = ciudad_cliente>
+                <input type="text" class="form-control" id="ciudad_cliente" name = ciudad_cliente required>
               </div>
       
             
               <div class="col-md-4 offset-md-4 d-grid gap-2 mt-4">
-                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="submit" class="btn btn-primary" id="btnGuardar" disabled>Guardar</button>
                 <button type="button" class="btn btn-warning" onclick="document.querySelector('form').reset();">Borrar</button>
                 <button type="button" class="btn btn-secondary" onclick="window.location.href='/'">Salir</button>
               </div>
@@ -77,4 +89,114 @@
         </div>
       </div>
 
-      {% endblock contenido %}
+<script>
+  document.getElementById('Nombre_cliente').addEventListener('input', function(e) {
+    const nombre = e.target.value.trim();
+    
+    if (nombre.length >= 15) {
+      e.target.classList.remove('is-invalid');
+      e.target.classList.add('is-valid');
+    } else {
+      e.target.classList.remove('is-valid');
+    }
+  });
+  </script>
+
+
+<script>
+  document.getElementById('documento_numero').addEventListener('input', function () {
+    const valor = this.value.trim();
+    const esValido = /^\d{5,}$/.test(valor) && parseInt(valor) > 0;
+    
+    this.classList.toggle('is-valid', esValido);
+    this.classList.toggle('is-invalid', !esValido);
+  });
+</script>
+
+
+<script>
+  const hoy = new Date().toISOString().split("T")[0];
+  document.getElementById("fecha_nacimiento_clien").setAttribute("max", hoy);
+</script>
+
+
+
+<script>
+  document.getElementById('correo_cliente').addEventListener('input', function () {
+    const correo = this.value.trim();
+    const regexCorreo = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const esValido = regexCorreo.test(correo);
+
+    this.classList.toggle('is-valid', esValido);
+    this.classList.toggle('is-invalid', !esValido);
+  });
+</script>
+
+<script>
+  document.getElementById('numero_celular').addEventListener('input', function () {
+    const valor = this.value.trim();
+    const esValido = /^\d{7,}$/.test(valor) && parseInt(valor) > 0;
+    
+    this.classList.toggle('is-valid', esValido);
+    this.classList.toggle('is-invalid', !esValido);
+  });
+</script>
+
+<script>
+  document.getElementById('direccion_cliente').addEventListener('input', function () {
+    const valor = this.value.trim();
+    const esValido = valor.length >= 10;
+
+    this.classList.toggle('is-valid', esValido);
+    this.classList.toggle('is-invalid', !esValido);
+  });
+</script>
+
+<script>
+  document.getElementById('ciudad_cliente').addEventListener('input', function () {
+    const valor = this.value.trim();
+    const esValido = valor.length >= 4;
+
+    this.classList.toggle('is-valid', esValido);
+    this.classList.toggle('is-invalid', !esValido);
+  });
+</script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
+    const submitBtn = document.getElementById("btnGuardar");
+
+    form.addEventListener("input", function () {
+      const campos = form.querySelectorAll("input[required], select[required]");
+      let todosCompletos = true;
+
+      campos.forEach(function (campo) {
+        if (!campo.value.trim()) {
+          todosCompletos = false;
+        }
+      });
+
+      submitBtn.disabled = !todosCompletos;
+    });
+
+
+    form.addEventListener("submit", function (e) {
+      const campos = form.querySelectorAll("input[required], select[required]");
+      let todosCompletos = true;
+
+      campos.forEach(function (campo) {
+        if (!campo.value.trim()) {
+          todosCompletos = false;
+        }
+      });
+
+      if (!todosCompletos) {
+        e.preventDefault();
+        alert("Por favor, completa todos los campos obligatorios.");
+      }
+    });
+  });
+</script>
+{% endblock contenido %}

@@ -15,86 +15,43 @@
 <div class="table-responsive">
   <table class="table table-striped table-hover">
     <thead class="table-dark">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Documento</th>
-            <th scope="col">Tipo documento</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Fecha nacimiento</th>
-            <th scope="col">Celular</th>
-            <th scope="col">Direccion</th>
-            <th scope="col">Ciudad</th>
-            <th scope="col">Acciones</th>
-          </tr>
-        </thead>
-        <tbody class="table-group-divider">
-          <tr>
-            <th scope="row">1</th>
-            <td>123456</td>
-            <td>Cedula de ciudadania</td>
-            <td>Pedro perez</td>
-            <td>10/02/1985</td>
-            <td>1234567</td>
-            <td>Cl 5 # 12 17</td>
-            <td>Bogota</td>
-            <td>
-              <button class="btn btn-warning btn-sm">Editar</button>
-              <button class="btn btn-danger btn-sm">Borrar</button>
-            </td>
-          </tr>
-        </thead>
-
-        <tbody class="table-group-divider">
-            </tr>
-            <th scope="row">2</th>
-            <td>74185232</td>
-            <td>Cedula de extranjeria</td>
-            <td>Olmedo lopez soriano</td>
-            <td>05/07/1990</td>
-            <td>3102236236</td>
-            <td>kr 60 # 23- 56 </td>
-            <td>Bogota</td>
-            <td>
-              <button class="btn btn-warning btn-sm">Editar</button>
-              <button class="btn btn-danger btn-sm">Borrar</button>
-            </td>
-          </tr>
-        </tbody>
-
-        <tbody class="table-group-divider">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">No. cliente</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Celular</th>
+        <th scope="col">Direccion</th>
+        <th scope="col">email</th>
+        <th scope="col">Tipo documento</th>
+        <th scope="col">No. Documento</th>
+        <th scope="col">Fecha nacimiento</th>
+        <th scope="col">Ciudad</th>
+        <th scope="col">Acciones</th>
         </tr>
-        <th scope="row">3</th>
-        <td>9634568</td>
-        <td>Pasaporte</td>
-        <td>Dios Dado Cabello</td>
-        <td>16/03/1960</td>
-        <td>3209631234</td>
-        <td>Cl 12 # 63-51 </td>
-        <td>Medellin</td>
-        <td>
-          <button class="btn btn-warning btn-sm">Editar</button>
-          <button class="btn btn-danger btn-sm">Borrar</button>
-        </td>
-      </tr>
-    </tbody>
-
-    <tbody class="table-group-divider">
-    </tr>
-    <th scope="row">2</th>
-    <td>1035632988</td>
-    <td>Tarjeta de identidad</td>
-    <td>Juan Sebastian Zapatero</td>
-    <td>31/07/1981</td>
-    <td>3057946132</td>
-    <td>kr 100 # 03 - 70 </td>
-    <td>Bogota</td>
+        </thead>
+        <tbody class="table-group-divider">
+{% for cliente in clientes %}
+  <tr>
+    <td>{{ loop.index }}</td>
+    <td>{{ cliente.ID_Cliente }}</td>
+    <td>{{ cliente.nombre }}</td>
+    <td>{{ cliente.telefono }}</td>
+    <td>{{ cliente.direccion }}</td>
+    <td>{{ cliente.email }}</td>
+    <td>{{ cliente.documento_tipo }}</td>
+    <td>{{ cliente.documento_numero }}</td>
+    <td>{{ cliente.fecha_nacimiento }}</td>
+    <td>{{ cliente.ciudad }}</td>
     <td>
       <button class="btn btn-warning btn-sm">Editar</button>
       <button class="btn btn-danger btn-sm">Borrar</button>
     </td>
   </tr>
+  {% endfor %}
 </tbody>
+
 </table>
+  </div>
 
 <div class="col-md-4 offset-md-4 d-grid gap-2 mt-4">
       <button type="button" class="btn btn-secondary" onclick="window.location.href='/'">

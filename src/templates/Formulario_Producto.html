@@ -74,51 +74,40 @@
           </div>
         </div> 
 
+<div class="mb-3">
+  <label for="categoria" class="form-label">Categoría</label>
+  <select class="form-select" name="categoria" id="categoria" required>
+    <option disabled selected value="">Seleccione una categoría</option>
+    {% for categoria in categorias %}
+      <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
+    {% endfor %}
+  </select>
+</div>
 
-        <div class="col-md-4">
-          <label for="categoria" class="form-label">Categoría</label>
-          <select 
-            id="categoria" 
-            class="form-select" 
-            name="categoria"
-            required
-          >
-            <option value="" selected disabled>-- Seleccione una categoría --</option>
-            <option value="computadoras">Computadoras y Accesorios</option>
-            <option value="celulares">Celulares y Accesorios</option>
-            <option value="tv">Televisores y Audio</option>
-            <option value="electrodomesticos">Electrodomésticos pequeños</option>
-            <option value="videojuegos">Videojuegos y Consolas</option>
-            <option value="redes">Redes y Conectividad</option>
-            <option value="componentes">Componentes y Repuestos</option>
-            <option value="camaras">Cámaras y Fotografía</option>
-            <option value="baterias">Baterías y Cargadores</option>
-            <option value="otros">Otros accesorios</option>
-          </select>
-          <div class="invalid-feedback">
-            Por favor seleccione una categoría
+        <div class="col-2">
+          <label for="cantidad" class="form-label">Cantidad</label>
+          <div class="input-group has-validation"> 
+            <span class="input-group-text">#</span> 
+            <input 
+              type="number" 
+              class="form-control" 
+              id="cantidad" 
+              name="cantidad"
+              placeholder="1" 
+              step="1" 
+              min="1"  
+              max="99999999" 
+              inputmode="numeric"
+              required
+            >
+            <div class="invalid-feedback">
+              Ingrese una cantidad válida (número entero mayor o igual a 1).
+            </div>
           </div>
         </div>
 
-        <div class="col-md-4">
-          <label for="stock" class="form-label">Stock</label>
-          <select 
-          id="stock" 
-          class="form-select"
-          name="stock" 
-          required
-          >
-            <option value="" selected disabled>-- Seleccione una opcion --</option>
-            <option value="encamino">En camino</option>
-            <option value="constock">Con Stock</option>
-            <option value="sinstock">Sin Stock</option>
-          </select>
-          <div class="invalid-feedback">
-            Por favor seleccione una opcion
-          </div>
-        </div>
 
-        <div class="col-6">
+        <div class="col-5">
           <label for="precio" class="form-label">Precio Unitario</label>
           <div class="input-group has-validation"> 
             <span class="input-group-text">$</span> 
@@ -141,7 +130,7 @@
         </div>
         
         <div class="col-md-4 offset-md-4 d-grid gap-2 mt-4">
-          <button type="submit" class="btn btn-primary">Guardar</button>
+          <button type="submit" class="btn btn-primary" id="btnGuardar" disabled>Guardar</button>
           <button type="button" class="btn btn-warning" onclick="document.querySelector('form').reset();">Borrar</button>
           <button type="button" class="btn btn-secondary"  onclick="window.location.href='/'">
             Salir
@@ -200,5 +189,42 @@ function validarPrecio(input) {
 }
 </script>
 
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
+    const submitBtn = document.getElementById("btnGuardar");
+
+    form.addEventListener("input", function () {
+      const campos = form.querySelectorAll("input[required], select[required]");
+      let todosCompletos = true;
+
+      campos.forEach(function (campo) {
+        if (!campo.value.trim()) {
+          todosCompletos = false;
+        }
+      });
+
+      submitBtn.disabled = !todosCompletos;
+    });
+
+
+    form.addEventListener("submit", function (e) {
+      const campos = form.querySelectorAll("input[required], select[required]");
+      let todosCompletos = true;
+
+      campos.forEach(function (campo) {
+        if (!campo.value.trim()) {
+          todosCompletos = false;
+        }
+      });
+
+      if (!todosCompletos) {
+        e.preventDefault();
+        alert("Por favor, completa todos los campos obligatorios.");
+      }
+    });
+  });
+</script>
 {% endblock contenido %}
     
