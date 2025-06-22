@@ -36,3 +36,10 @@ class Producto(ModeloBase):
     def traer_productos(cls):
         session = Session()
         return session.query(cls).all()
+    
+    @classmethod
+    def traer_producto_por_codigo(cls, codigo_producto):
+        session = Session()
+        cliente = session.query(cls).filter_by(codigo_producto=codigo_producto).first()
+        session.close()
+        return cliente
