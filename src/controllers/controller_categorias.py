@@ -21,3 +21,4 @@ def insertar_categorias_predeterminadas():
         print(f"Error insertando categorías predeterminadas: {e}")
     finally:
         session.close()
+    

@@ -13,7 +13,7 @@ class Producto(ModeloBase):
     precio = Column(Numeric(10, 2), nullable=False)
         
     categoria_id = Column(Integer, ForeignKey('categoria.id'))
-    categoria_rel = relationship('Categoria', back_populates='productos')
+    categoria_rel = relationship('Categoria', back_populates='productos', lazy='joined')
     detalles = relationship('DetalleFactura', back_populates="producto")
 
     def __init__(self, Nombre_de_producto, Descripcion_de_producto, 
@@ -37,6 +37,7 @@ class Producto(ModeloBase):
         session = Session()
         return session.query(cls).all()
     
+        
     @classmethod
     def traer_producto_por_codigo(cls, codigo_producto):
         session = Session()

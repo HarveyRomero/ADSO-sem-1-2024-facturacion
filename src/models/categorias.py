@@ -13,4 +13,4 @@ class Categoria(ModeloBase):
     
     productos = relationship("Producto", back_populates="categoria_rel")
 
-
+    

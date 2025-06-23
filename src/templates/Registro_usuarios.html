@@ -30,19 +30,20 @@
         {% endif %}
     {% endwith %}
 
+
+    
         <form method="POST" action="/Registro_usuarios.html" class="row g-3" novalidate>
+
+    {% if usuario %}
+    <input type="hidden" name="documento_original" value="{{ usuario.documento_numero }}">
+    {% endif %}
 
         <div class="col-md-7">
              <label for="Nombre_de_usu" class="form-label">Nombre del usuario</label>
              <input 
-              type="text" 
-              class="form-control" 
-              id="Nombre_de_usu" 
-              name="Nombre_de_usu"
-              required
-              minlength="15"
-              maxlength="100"
-              required>
+              type="text" class="form-control" id="Nombre_de_usu" name="Nombre_de_usu"
+              value="{{ usuario.nombre if usuario else '' }}"
+              minlength="15"  maxlength="100"  required>
               <div class="invalid-feedback">
                 Por favor ingresa un nombre válido (mínimo 15 caracteres)
               </div>
@@ -54,15 +55,12 @@
       <div class="col-md-2">
         <label for="documento_tipo" class="form-label">Tipo de documento</label>
         <select 
-          id="documento_tipo" 
-          name="documento_tipo"
-          class="form-select"
-          required
-        >
-          <option value="" selected disabled>-- Seleccione una opcion --</option>
-          <option>Cedula de ciudadania</option>
-          <option>Cedula de extranjeria</option>
-          <option>Pasaporte</option>
+   id="documento_tipo" name="documento_tipo" class="form-select" required>
+  <option value="" disabled {% if not usuario %}selected{% endif %}>-- Seleccione una opcion --</option>
+  <option value="Cedula de ciudadania" {% if usuario and usuario.documento_tipo == 'Cedula de ciudadania' %}selected{% endif %}>Cédula de ciudadanía</option>
+  <option value="Cedula de extranjeria" {% if usuario and usuario.documento_tipo == 'Cedula de extranjeria' %}selected{% endif %}>Cédula de extranjería</option>
+  <option value="Pasaporte" {% if usuario and usuario.documento_tipo == 'Pasaporte' %}selected{% endif %}>Pasaporte</option>
+</select>
         </select>
         <div class="invalid-feedback">
           Por favor seleccione un tipo de documento.
@@ -73,6 +71,8 @@
     <div class="col-md-3">
         <label for="documento_us" class="form-label">Documento</label>
         <input type="number" class="form-control" id="documento_us" name="documento_us" 
+          value="{{ usuario.documento_numero if usuario else '' }}"
+          {% if usuario %}readonly{% endif %}
           placeholder="12345" step="1"  min="1"required >
       <div class="invalid-feedback">
         Por favor ingrese un número de documento válido (mínimo 5 dígitos).
@@ -87,7 +87,8 @@
       <input 
       type="date" 
       class="form-control" 
-      id="fecha_nacimiento_u" 
+      id="fecha_nacimiento_u"
+      value="{{ usuario.fecha_nacimiento if usuario else '' }}" 
       name="fecha_nacimiento_u"
       placeholder="dd/mm/yyyy"
       required
@@ -104,6 +105,7 @@
         class="form-control" 
         id="correo_us" 
         name="correo_us"
+        value="{{ usuario.email if usuario else '' }}" 
         placeholder="ejemplo@correo.com" 
         required
       >
@@ -118,6 +120,7 @@
     <div class="col-md-3">
         <label for="numero_celular_us" class="form-label">No. Celular</label>
         <input type="number" class="form-control" id="numero_celular_us" name = "numero_celular_us"
+        value="{{ usuario.telefono if usuario else '' }}"
         autocomplete="off" placeholder="1234567" step="1" min="1"
         required>
         <div class="invalid-feedback">
@@ -132,10 +135,8 @@
       <div class="col-7">
         <label for="direccion_us" class="form-label">Dirección</label>
         <input 
-          type="text" 
-          class="form-control" 
-          id="direccion_us" 
-          name="direccion_us"
+          type="text" class="form-control" id="direccion_us" name="direccion_us"
+          value="{{ usuario.direccion if usuario else '' }}" 
           required 
           minlength="10">
         <div class="invalid-feedback">
@@ -149,6 +150,7 @@
         <div class="col-3">
             <label for="ciudad_us" class="form-label">Ciudad</label>
             <input type="text" class="form-control" id="ciudad_us" name="ciudad_us"
+            value="{{ usuario.ciudad if usuario else '' }}"
           required 
           minlength="4"
             required>
@@ -163,6 +165,7 @@
         <div class="col-3">
           <label for="usuario" class="form-label">Usuario</label>
           <input type="text" class="form-control" id="usuario" name="usuario"
+          value="{{ usuario.usuario if usuario else '' }}" 
           required>
         <div class="invalid-feedback">
           El usuario debe ser de minimo 7 caracteres.
@@ -178,6 +181,7 @@
               class="form-control" 
               id="Clave" 
               name="Clave"
+              value="{{ usuario.contraseña if usuario else '' }}"
               required 
               minlength="6">
         <div class="invalid-feedback">
@@ -188,20 +192,18 @@
         </div>
       </div>
 
-      <div class="col-md-2">
-        <label for="rol_us" class="form-label">Rol</label>
-        <select id="rol_us" class="form-select" name="rol_us" required>
-          <option value="" selected disabled>-- Seleccione una opcion --</option>
-          <option>Administrador</option>
-          <option>Vendedor</option>
-          <option>Bodega</option>
-        </select>
-        <div class="invalid-feedback">
-          Por favor seleccione un rol.
-        </div>
-      </div>
-
-
+<div class="col-md-2">
+  <label for="rol_us" class="form-label">Rol</label>
+  <select id="rol_us" class="form-select" name="rol_us" required>
+    <option value="" disabled {% if not usuario %}selected{% endif %}>-- Seleccione una opción --</option>
+    <option value="Administrador" {% if usuario and usuario.rol == 'Administrador' %}selected{% endif %}>Administrador</option>
+    <option value="Vendedor" {% if usuario and usuario.rol == 'Vendedor' %}selected{% endif %}>Vendedor</option>
+    <option value="Bodega" {% if usuario and usuario.rol == 'Bodega' %}selected{% endif %}>Bodega</option>
+  </select>
+  <div class="invalid-feedback">
+    Por favor seleccione un rol.
+  </div>
+</div>
 
 <div class="col-md-4 offset-md-4 d-grid gap-2 mt-4">
       <button type="submit" class="btn btn-primary" id="btnGuardar" disabled>Guardar</button>
@@ -216,7 +218,6 @@
 </div>
 </div>
 </div>
-
 
 
 

@@ -27,6 +27,7 @@
     <th>Tipo doc</th>
     <th>Doc</th>
     <th>Fecha nacimiento</th>
+    <th>Ciudad</th>
     <th>Acciones</th>
   </tr>
 </thead>
@@ -45,9 +46,20 @@
     <td>{{ usuario.documento_tipo }}</td>
     <td>{{ usuario.documento_numero }}</td>
     <td>{{ usuario.fecha_nacimiento }}</td>
+    <td>{{ usuario.ciudad }}</td>
     <td>
-      <button class="btn btn-warning btn-sm">Editar</button>
-      <button class="btn btn-danger btn-sm">Borrar</button>
+
+
+
+
+
+<a class="btn btn-warning btn-sm"
+   href="{{ url_for('editar_usuario', documento_numero=usuario.documento_numero) }}">
+   Editar
+</a>
+<form action="{{ url_for('eliminar_usuario', documento_numero=usuario.documento_numero) }}" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este usuario?');" style="display:inline;">
+  <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+</form>
     </td>
   </tr>
   {% endfor %}

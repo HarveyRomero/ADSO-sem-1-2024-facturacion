@@ -19,12 +19,13 @@ class Usuario(ModeloBase):
     documento_tipo = Column(documento_tipo_enum, nullable=False)
     documento_numero = Column(Integer, nullable=False, unique=True)
     fecha_nacimiento = Column(Date, nullable=False)
-        
+    ciudad = Column(String(100), nullable=False)
+
     facturas = relationship('Factura', backref='usuario', lazy=True)
 
     def __init__(self, nombre, telefono, direccion, email,
         usuario, contraseña, rol, fecha_alta,
-        documento_tipo, documento_numero, fecha_nacimiento):
+        documento_tipo, documento_numero, fecha_nacimiento,ciudad):
         self.nombre = nombre
         self.telefono = telefono
         self.direccion = direccion
@@ -36,6 +37,7 @@ class Usuario(ModeloBase):
         self.documento_tipo = documento_tipo
         self.documento_numero = documento_numero
         self.fecha_nacimiento = fecha_nacimiento
+        self.ciudad = ciudad 
 
     # para verificar datos utiles en la consolita
     def __repr__(self):
