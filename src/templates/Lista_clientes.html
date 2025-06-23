@@ -43,9 +43,19 @@
     <td>{{ cliente.fecha_nacimiento }}</td>
     <td>{{ cliente.ciudad }}</td>
     <td>
-      <button class="btn btn-warning btn-sm">Editar</button>
-      <button class="btn btn-danger btn-sm">Borrar</button>
-    </td>
+
+<td>
+  <a href="{{ url_for('editar_cliente', documento_numero=cliente.documento_numero) }}" 
+  class="btn btn-warning btn-sm">Editar</a>
+  
+  <form action="{{ url_for('eliminar_cliente', documento_numero=cliente.documento_numero) }}" 
+  method="POST" style="display:inline;">
+    <button type="submit" class="btn btn-danger btn-sm" onclick="return 
+    confirm('¿Estás seguro de eliminar este cliente?');">
+    Eliminar
+    </button>
+  </form>
+</td>
   </tr>
   {% endfor %}
 </tbody>

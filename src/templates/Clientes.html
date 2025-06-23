@@ -23,67 +23,76 @@
         {% endif %}
     {% endwith %}
 
-            <form method="POST" action="/Clientes.html" class="row g-3" novalidate>
+<form method="POST" action="/Clientes.html" class="row g-3" novalidate>
 
-              <div class="col-md-12">
-                <label for="Nombre_cliente" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="Nombre_cliente" name="Nombre_cliente">
-              </div>
+  <input type="hidden" name="documento_original" 
+  value="{{ cliente.documento_numero if cliente else '' }}">
+
+    <div class="col-md-12">
+      <label for="Nombre_cliente" class="form-label">Nombre</label>
+   <input type="text" class="form-control" id="Nombre_cliente" name="Nombre_cliente"
+   value="{{ cliente.nombre if cliente else '' }}">
+   </div>
   
-              <div class="col-md-2">
-                <label for="documento_text" class="form-label">Tipo de documento</label>
-                <select id="documento_text" class="form-select" name="documento_text">
-                  <option selected disabled>Selecciona</option>
-                  <option>Tarjeta de identidad</option>
-                  <option>Cédula de ciudadanía</option>
-                  <option>Cédula de extranjería</option>
-                  <option>Pasaporte</option>
-                </select>
-              </div>
+<div class="col-md-2">
+  <label for="documento_tipo" class="form-label">Tipo de documento</label>
+  <select id="documento_tipo" class="form-select" name="documento_tipo" required>
+    <option value="" disabled {% if not cliente %}selected{% endif %}>Selecciona</option>
+    <option value="Tarjeta de identidad" {% if cliente and cliente.documento_tipo == 'Tarjeta de identidad' %}selected{% endif %}>Tarjeta de identidad</option>
+    <option value="Cédula de ciudadanía" {% if cliente and cliente.documento_tipo == 'Cédula de ciudadanía' %}selected{% endif %}>Cédula de ciudadanía</option>
+    <option value="Cédula de extranjería" {% if cliente and cliente.documento_tipo == 'Cédula de extranjería' %}selected{% endif %}>Cédula de extranjería</option>
+    <option value="Pasaporte" {% if cliente and cliente.documento_tipo == 'Pasaporte' %}selected{% endif %}>Pasaporte</option>
+  </select>
+</div>
       
-              <div class="col-md-10">
-                <label for="documento_numero" class="form-label">Número de documento</label>
-                <input type="number" class="form-control" id="documento_numero" name="documento_numero"
-                placeholder="123456" step="1" min="0" required>
-              </div>
+ <div class="col-md-10">
+  <label for="documento_numero" class="form-label">Número de documento</label>
+ <input type="number" class="form-control" id="documento_numero" name="documento_numero"
+  value="{{ cliente.documento_numero if cliente else '' }}"
+  placeholder="123456" step="1" min="0" required>
+  </div>
       
-              
-              <div class="col-md-3">
-                <label for="fecha_nacimiento_clien" class="form-label">Fecha de nacimiento</label>
-                <input type="date" class="form-control" id="fecha_nacimiento_clien" name="fecha_nacimiento_clien"
-                placeholder="dd/mm/yyyy" required>
-              </div>
+ <div class="col-md-3">
+  <label for="fecha_nacimiento_clien" class="form-label">Fecha de nacimiento</label>
+  <input type="date" class="form-control" id="fecha_nacimiento_clien" name="fecha_nacimiento_clien"
+  value="{{ cliente.fecha_nacimiento if cliente else '' }}"
+  placeholder="dd/mm/yyyy" required>
+  </div>
+
+   <div class="col-md-5">
+   <label for="correo_cliente" class="form-label">Correo electrónico</label>
+   <input type="email" class="form-control" id="correo_cliente" name = "correo_cliente"
+    value="{{ cliente.email if cliente else '' }}"
+    placeholder="ejemplo@correo.com" required>
+   </div>
       
-              <div class="col-md-5">
-                <label for="correo_cliente" class="form-label">Correo electrónico</label>
-                <input type="email" class="form-control" id="correo_cliente" name = "correo_cliente"
-                placeholder="ejemplo@correo.com" required>
-              </div>
+  <div class="col-md-4">
+  <label for="numero_celular" class="form-label">No. Celular</label>
+  <input type="number" class="form-control" id="numero_celular" name = "numero_celular"
+   value="{{ cliente.telefono if cliente else '' }}"
+  placeholder="3123456789" step="1" min="0" required>
+  </div>
+
+  <div class="col-md-7">
+  <label for="direccion_cliente" class="form-label">Dirección</label>
+  <input type="text" class="form-control" id="direccion_cliente" name = "direccion_cliente"
+   value="{{ cliente.direccion if cliente else '' }}"
+   required>
+  </div>
+
+  <div class="col-md-5">
+  <label for="ciudad_cliente" class="form-label">Ciudad</label>
+  <input type="text" class="form-control" id="ciudad_cliente" name = "ciudad_cliente"
+   value="{{ cliente.ciudad if cliente else '' }}"
+   required>
+  </div>
       
-              <div class="col-md-4">
-                <label for="numero_celular" class="form-label">No. Celular</label>
-                <input type="number" class="form-control" id="numero_celular" name = "numero_celular"
-                placeholder="3123456789" step="1" min="0" required>
-              </div>
-      
-            
-              <div class="col-md-7">
-                <label for="direccion_cliente" class="form-label">Dirección</label>
-                <input type="text" class="form-control" id="direccion_cliente" name = direccion_cliente required>
-              </div>
-      
-              <div class="col-md-5">
-                <label for="ciudad_cliente" class="form-label">Ciudad</label>
-                <input type="text" class="form-control" id="ciudad_cliente" name = ciudad_cliente required>
-              </div>
-      
-            
-              <div class="col-md-4 offset-md-4 d-grid gap-2 mt-4">
-                <button type="submit" class="btn btn-primary" id="btnGuardar" disabled>Guardar</button>
-                <button type="button" class="btn btn-warning" onclick="document.querySelector('form').reset();">Borrar</button>
-                <button type="button" class="btn btn-secondary" onclick="window.location.href='/'">Salir</button>
-              </div>
-      
+
+ <div class="col-md-4 offset-md-4 d-grid gap-2 mt-4">
+    <button type="submit" class="btn btn-primary" id="btnGuardar">Guardar</button>
+    <button type="button" class="btn btn-warning" onclick="document.querySelector('form').reset();">Borrar</button>
+    <button type="button" class="btn btn-secondary" onclick="window.location.href='/'">Salir</button>
+  </div>
             </form>
           </div>
         </div>
