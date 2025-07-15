@@ -52,6 +52,7 @@
 
 <a class="btn btn-warning btn-sm"
    href="{{ url_for('editar_usuario', documento_numero=usuario.documento_numero) }}">
+   
    Editar
 </a>
 <form action="{{ url_for('eliminar_usuario', documento_numero=usuario.documento_numero) }}" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este usuario?');" style="display:inline;">

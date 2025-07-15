@@ -1,10 +1,14 @@
-from flask import request, render_template, redirect, url_for, flash
+from flask import request, render_template, redirect, url_for, flash, jsonify
 from datetime import datetime, date
 from src.app import app 
 from src.models import Session
 from src.models.facturas import Factura
 from src.models.detalles_factura import DetalleFactura
 from src.models.TipoPago import TipoPago
+from src.models.clientes import Cliente
+from src.models.productos import Producto
+
+
 
 @app.route('/Nueva_factura.html', methods=['GET', 'POST'])
 def registrar_factura():
@@ -59,3 +63,30 @@ def registrar_factura():
             session.close()
 
     return render_template('Nueva_factura.html')
+
+@app.route('/traer_cliente_por_documento/<int:documento>', methods=['GET'])
+def traer_cliente_por_documento(documento):
+    cliente = Cliente.traer_cliente_por_documento(documento)
+    print("Cliente encontrado:", cliente)
+    if cliente:
+        return jsonify({
+            'nombre': cliente.nombre,
+            'telefono': cliente.telefono,
+            'email': cliente.email
+        })
+    return jsonify({'error': 'Cliente no encontrado'}), 404
+
+@app.route('/traer_producto_por_codigo/<codigo_producto>', methods=['GET'])
+def traer_producto_por_codigo(codigo_producto):
+    producto = Producto.traer_producto_por_codigo(codigo_producto)
+    print("Código recibido:", codigo_producto)
+    print("Producto encontrado:", producto)
+    if producto:
+        return jsonify({
+
+            'precio': producto.precio
+        })
+    return jsonify({'error': 'Producto no encontrado'}), 404
+
+
+

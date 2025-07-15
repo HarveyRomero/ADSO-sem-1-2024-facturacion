@@ -2,6 +2,8 @@ from sqlalchemy import Column, Integer, String, Date, BigInteger
 from sqlalchemy.orm import relationship
 from src.models.base import Session, ModeloBase
 from src.models import usuario_rol_enum, documento_tipo_enum
+from flask import render_template, redirect, url_for, flash
+from datetime import date
 
 
 class Usuario(ModeloBase):
@@ -51,13 +53,52 @@ class Usuario(ModeloBase):
         return usuario
     
     @classmethod
-    def traer_usuario_por_documento(cls, numero):
-        session = Session()
-        return session.query(cls).filter_by(documento_numero=numero).first()
-
-    @classmethod
     def traer_usuarios(cls):
         session = Session()
         return session.query(cls).all()
-
     
+    @classmethod
+    def traer_usuario_por_documento(cls, documento_numero):
+        session = Session()
+        return session.query(cls).filter_by(documento_numero = documento_numero).first()
+    
+    @classmethod
+    def traer_usuario_por_id(cls, id_usuario):
+        session = Session()
+        usuario = session.query(cls).filter_by(ID_Usuario=id_usuario).first()
+        session.close()
+        return usuario
+    
+    @classmethod
+    def editar_usuario(cls, id_usuario, nuevos_datos):
+        session = Session()
+        usuario= session.query(cls).filter_by(ID_Usuario=id_usuario).first()
+        if not usuario:
+            session.close()
+            return None
+        usuario.nombre = nuevos_datos.get('nombre')
+        usuario.telefono = int(nuevos_datos.get('telefono'))
+        usuario.direccion = nuevos_datos.get('direccion')
+        usuario.email = nuevos_datos.get('email')
+        usuario.usuario = nuevos_datos.get('usuario')
+        usuario.contraseña = nuevos_datos.get('contraseña')
+        usuario.rol = nuevos_datos.get('rol')
+        usuario.documento_tipo = nuevos_datos.get('documento_tipo')
+        usuario.fecha_nacimiento = nuevos_datos.get('fecha_nacimiento')
+        usuario.ciudad = nuevos_datos.get('ciudad')
+
+        session.commit()
+        session.close()
+        return usuario
+
+    @classmethod
+    def eliminar_usuario(cls, documento_numero):
+        session = Session()
+        usuario = session.query(cls).filter_by(documento_numero=documento_numero).first()
+        if not usuario:
+            session.close()
+            return False
+        session.delete(usuario)
+        session.commit()
+        session.close()
+        return True

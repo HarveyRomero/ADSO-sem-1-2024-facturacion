@@ -46,7 +46,8 @@
 
 <td>
   <a href="{{ url_for('editar_cliente', documento_numero=cliente.documento_numero) }}" 
-  class="btn btn-warning btn-sm">Editar</a>
+  class="btn btn-warning btn-sm">Editar
+</a>
   
   <form action="{{ url_for('eliminar_cliente', documento_numero=cliente.documento_numero) }}" 
   method="POST" style="display:inline;">

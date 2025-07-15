@@ -26,21 +26,61 @@ class Producto(ModeloBase):
         self.categoria_id = categoria_id
 
     @classmethod
-    def crear_producto(cls,producto):
+    def crear_producto(cls, producto):
         session = Session()
         session.add(producto)
         session.commit()
+        session.close()
         return producto
 
     @classmethod
     def traer_productos(cls):
         session = Session()
-        return session.query(cls).all()
-    
-        
+        productos = session.query(cls).all()
+        session.close()
+        return productos
+
     @classmethod
     def traer_producto_por_codigo(cls, codigo_producto):
         session = Session()
-        cliente = session.query(cls).filter_by(codigo_producto=codigo_producto).first()
+        producto = session.query(cls).filter_by(codigo_producto=codigo_producto).first()
         session.close()
-        return cliente
+        return producto
+    
+    @classmethod
+    def traer_producto_por_id(cls, id_producto):
+        session = Session()
+        producto = session.query(cls).filter_by(ID_Producto=id_producto).first()
+        session.close()
+        return producto
+
+    @classmethod
+    def editar_producto(cls, id_producto, nuevos_datos):
+        session = Session()
+        producto = session.query(cls).filter_by(ID_Producto=id_producto).first()
+        if not producto:
+            session.close()
+            return None
+
+        producto.Nombre_de_producto = nuevos_datos.get('Nombre_de_producto')
+        producto.Descripcion_de_producto = nuevos_datos.get('Descripcion_de_producto')
+        producto.codigo_producto = nuevos_datos.get('codigo_producto')
+        producto.cantidad = nuevos_datos.get('cantidad')
+        producto.precio = nuevos_datos.get('precio')
+        producto.categoria_id = nuevos_datos.get('categoria_id')
+
+        session.commit()
+        session.close()
+        return producto
+
+    @classmethod
+    def eliminar_producto(cls, id_producto):
+        session = Session()
+        producto = session.query(cls).filter_by(ID_Producto=id_producto).first()
+        if not producto:
+            session.close()
+            return False
+        session.delete(producto)
+        session.commit()
+        session.close()
+        return True

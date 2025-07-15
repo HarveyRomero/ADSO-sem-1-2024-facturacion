@@ -11,54 +11,68 @@
     <div class="card-body row g-3">
       <div class="col-md-3">
         <label class="form-label">Documento Cliente</label>
-        <input type="number" class="form-control" name="documento_cliente" required>
+        <input type="number" class="form-control" name="documento_numero" id="documento_numero" required>
       </div>
       <div class="col-md-3">
         <label class="form-label">Nombre</label>
-        <input type="text" class="form-control" name="nombre_cliente" required>
+        <input type="text" class="form-control" name="nombre" id ="nombre" required>
       </div>
       <div class="col-md-3">
         <label class="form-label">Correo</label>
-        <input type="email" class="form-control" name="correo_cliente" required>
+        <input type="email" class="form-control" name="correo" id ="email" required>
       </div>
       <div class="col-md-3">
         <label class="form-label">Celular</label>
-        <input type="tel" class="form-control" name="celular_cliente" required>
+        <input type="telefono" class="form-control" name="telefono" id="telefono" required>
       </div>
     </div>
   </div>
 
-  <!-- DETALLE DE PRODUCTOS -->
-  <div class="card mb-4">
-    <div class="card-header bg-success text-white">Productos</div>
-    <div class="card-body">
-      <div id="productosContainer">
-        <!-- Fila de producto -->
-        <div class="row g-3 producto-row mb-3 align-items-end">
-          <div class="col-md-3">
-            <label class="form-label">ID Producto</label>
-            <input type="number" class="form-control" name="producto_id[]" required>
-          </div>
-          <div class="col-md-3">
-            <label class="form-label">Cantidad</label>
-            <input type="number" class="form-control cantidad" name="producto_cantidad[]" min="1" oninput="calcularSubtotal(this)" required>
-          </div>
-          <div class="col-md-3">
-            <label class="form-label">Precio Unitario</label>
-            <input type="number" class="form-control precio" name="producto_precio[]" step="0.01" oninput="calcularSubtotal(this)" required>
-          </div>
-          <div class="col-md-2">
-            <label class="form-label">Subtotal</label>
-            <input type="text" class="form-control subtotal" name="producto_subtotal[]" readonly value="0.00">
-          </div>
-          <div class="col-md-1">
-            <button type="button" class="btn btn-danger" onclick="eliminarFila(this)">✖</button>
-          </div>
+<!-- DETALLE DE PRODUCTOS -->
+<div class="card mb-4">
+  <div class="card-header bg-success text-white">Productos</div>
+  <div class="card-body">
+    <div id="productosContainer">
+      <!-- Fila de producto -->
+      <div class="row producto-row align-items-end mb-3">
+        <div class="col-md-3">
+          <label class="form-label">Código producto</label>
+          <input type="text" class="form-control codigo_producto" name="codigo_producto[]" required>
+        </div>
+        <div class="col-md-1">
+          <label class="form-label">Cantidad</label>
+          <input type="number" class="form-control cantidad" name="producto_cantidad[]" oninput="calcularSubtotal(this)" required>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Precio Unitario</label>
+          <input type="number" class="form-control precio" name="precio[]"  oninput="calcularSubtotal(this)" required>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Subtotal</label>
+          <input type="number" class="form-control subtotal" name="producto_subtotal[]" readonly value="0.00">
+        </div>
+        <div class="col-md-1 d-flex align-items-end">
+          <button type="button" class="btn btn-danger" onclick="eliminarFila(this)">✖</button>
         </div>
       </div>
-      <button type="button" class="btn btn-outline-success" onclick="agregarProducto()">+ Agregar producto</button>
+    </div>
+
+    <!-- Botón para agregar producto -->
+    <div class="row mb-3">
+      <div class="col-md-2">
+        <button type="button" class="btn btn-outline-success" onclick="agregarProducto()">+ Agregar producto</button>
+      </div>
+    </div>
+
+    <!-- Subtotal general -->
+    <div class="row">
+      <div class="col-md-2 offset-md-6 text-end">
+        <label class="form-label fw-bold">Subtotal productos</label>
+        <input type="number" class="form-control" id="total_final" name="total_final" readonly value="0.00">
+      </div>
     </div>
   </div>
+</div>
 
   <!-- DETALLES DE FACTURA -->
   <div class="card mb-4">
@@ -159,4 +173,126 @@
 
 </form>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<script>
+$(document).ready(function () {
+  $("#documento_numero").change(function () {
+    let documento = $(this).val();
+
+    $.ajax({
+      type: "GET",
+      url: "/traer_cliente_por_documento/" + documento,
+      contentType: "application/json",
+      dataType: "json",
+      success: function (result) {
+        console.log(result);
+
+        // Usar los ID reales del formulario
+        $("#nombre").val(result.nombre);
+        $("#telefono").val(result.telefono);
+        $("#email").val(result.email);
+      },
+      error: function () {
+        console.log("Error al consultar el cliente.");
+      }
+    });
+  });
+});
+</script>
+
+
+<script>
+$(document).on("change", ".codigo_producto", function () {
+  let input = $(this);
+  let codigo = input.val();
+  let fila = input.closest(".producto-row");
+
+  $.ajax({
+    type: "GET",
+    url: "/traer_producto_por_codigo/" + codigo,
+    contentType: "application/json",
+    dataType: "json",
+      success: function (result) {
+        fila.find(".precio").val(result.precio);
+      },
+    error: function () {
+      console.log("Producto no encontrado.");
+      fila.find(".precio").val(""); // Limpia campos
+    }
+  });
+});
+</script>
+
+<!--Para crear nueva fila de productos, limpiar campos y eliminarlos si hace falta -->
+<script>
+function agregarProducto() {
+  // Obtener el contenedor donde se insertarán las filas
+  const container = document.getElementById('productosContainer');
+
+  // Clonar la primera fila (la plantilla)
+  const primeraFila = container.querySelector('.producto-row');
+  const nuevaFila = primeraFila.cloneNode(true);
+
+  // Limpiar los valores de la nueva fila
+  nuevaFila.querySelectorAll('input').forEach(input => {
+    input.value = (input.name === 'producto_subtotal[]') ? "0.00" : "";
+  });
+
+  // Asegúrate de quitar IDs duplicados para evitar conflictos
+  nuevaFila.querySelectorAll('[id]').forEach(el => {
+    el.removeAttribute('id');
+  });
+
+  container.appendChild(nuevaFila);
+}
+
+function eliminarFila(boton) {
+  const fila = boton.closest('.producto-row');
+  const container = document.getElementById('productosContainer');
+
+  // Solo elimina si hay más de una fila
+  if (container.querySelectorAll('.producto-row').length > 1) {
+    fila.remove();
+  } else {
+    alert('Debe haber al menos un producto en la factura.');
+  }
+}
+
+// (Opcional) Recalcular subtotal en cada fila
+function calcularSubtotal(input) {
+  const fila = input.closest('.producto-row');
+  const cantidad = parseFloat(fila.querySelector('.cantidad').value) || 0;
+  const precio = parseFloat(fila.querySelector('.precio').value) || 0;
+  const subtotal = cantidad * precio;
+  fila.querySelector('.subtotal').value = subtotal.toFixed(2);
+}
+</script>
+
+
+
+
+<!--Para calulo de subtotales cuando intgreso producto -->
+<script>
+function calcularSubtotal(input) {
+  const fila = input.closest('.producto-row');
+  const cantidad = parseFloat(fila.querySelector('.cantidad').value) || 0;
+  const precio = parseFloat(fila.querySelector('.precio').value) || 0;
+  const subtotal = cantidad * precio;
+  fila.querySelector('.subtotal').value = subtotal.toFixed(2);
+  calcularTotalFinal(); // Actualizar total general
+}
+
+function calcularTotalFinal() {
+  let total = 0;
+  document.querySelectorAll('.subtotal').forEach(input => {
+    total += parseFloat(input.value) || 0;
+  });
+  document.getElementById('total_final').value = total.toFixed(2);
+}
+</script>
+
 {% endblock contenido %}
+
+

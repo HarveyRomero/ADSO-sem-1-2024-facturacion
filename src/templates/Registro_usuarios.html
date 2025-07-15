@@ -34,14 +34,15 @@
     
         <form method="POST" action="/Registro_usuarios.html" class="row g-3" novalidate>
 
-    {% if usuario %}
-    <input type="hidden" name="documento_original" value="{{ usuario.documento_numero }}">
-    {% endif %}
+{% if usuario %}
+    <input type="hidden" name="ID_Usuario" value="{{ usuario.ID_Usuario }}">
+{% endif %}
+
 
         <div class="col-md-7">
-             <label for="Nombre_de_usu" class="form-label">Nombre del usuario</label>
+             <label for="nombre" class="form-label">Nombre del usuario</label>
              <input 
-              type="text" class="form-control" id="Nombre_de_usu" name="Nombre_de_usu"
+              type="text" class="form-control" id="nombre" name="nombre"
               value="{{ usuario.nombre if usuario else '' }}"
               minlength="15"  maxlength="100"  required>
               <div class="invalid-feedback">
@@ -69,8 +70,8 @@
 
 
     <div class="col-md-3">
-        <label for="documento_us" class="form-label">Documento</label>
-        <input type="number" class="form-control" id="documento_us" name="documento_us" 
+        <label for="documento_numero" class="form-label">Documento</label>
+        <input type="number" class="form-control" id="documento_numero" name="documento_numero" 
           value="{{ usuario.documento_numero if usuario else '' }}"
           {% if usuario %}readonly{% endif %}
           placeholder="12345" step="1"  min="1"required >
@@ -83,13 +84,13 @@
     </div>
 
       <div class="col-md-3">
-      <label for="fecha_nacimiento_u" class="form-label">Fecha de nacimiento</label>
+      <label for="fecha_nacimiento" class="form-label">Fecha de nacimiento</label>
       <input 
       type="date" 
       class="form-control" 
-      id="fecha_nacimiento_u"
+      id="fecha_nacimiento"
       value="{{ usuario.fecha_nacimiento if usuario else '' }}" 
-      name="fecha_nacimiento_u"
+      name="fecha_nacimiento"
       placeholder="dd/mm/yyyy"
       required
       >
@@ -99,12 +100,12 @@
       </div>
 
     <div class="col-md-5">
-      <label for="correo_us" class="form-label">Correo electrónico</label>
+      <label for="email" class="form-label">Correo electrónico</label>
       <input 
         type="email" 
         class="form-control" 
-        id="correo_us" 
-        name="correo_us"
+        id="email" 
+        name="email"
         value="{{ usuario.email if usuario else '' }}" 
         placeholder="ejemplo@correo.com" 
         required
@@ -118,8 +119,8 @@
     </div>
 
     <div class="col-md-3">
-        <label for="numero_celular_us" class="form-label">No. Celular</label>
-        <input type="number" class="form-control" id="numero_celular_us" name = "numero_celular_us"
+        <label for="telefono" class="form-label">No. Celular</label>
+        <input type="number" class="form-control" id="telefono" name = "telefono"
         value="{{ usuario.telefono if usuario else '' }}"
         autocomplete="off" placeholder="1234567" step="1" min="1"
         required>
@@ -133,9 +134,9 @@
 
 
       <div class="col-7">
-        <label for="direccion_us" class="form-label">Dirección</label>
+        <label for="direccion" class="form-label">Dirección</label>
         <input 
-          type="text" class="form-control" id="direccion_us" name="direccion_us"
+          type="text" class="form-control" id="direccion" name="direccion"
           value="{{ usuario.direccion if usuario else '' }}" 
           required 
           minlength="10">
@@ -148,8 +149,8 @@
       </div>
 
         <div class="col-3">
-            <label for="ciudad_us" class="form-label">Ciudad</label>
-            <input type="text" class="form-control" id="ciudad_us" name="ciudad_us"
+            <label for="ciudad" class="form-label">Ciudad</label>
+            <input type="text" class="form-control" id="ciudad" name="ciudad"
             value="{{ usuario.ciudad if usuario else '' }}"
           required 
           minlength="4"
@@ -176,11 +177,11 @@
       </div>
 
       <div class="col-3"> 
-        <label for="Clave" class="form-label">Clave</label>
+        <label for="contraseña" class="form-label">Clave</label>
         <input type="password" 
               class="form-control" 
-              id="Clave" 
-              name="Clave"
+              id="contraseña" 
+              name="contraseña"
               value="{{ usuario.contraseña if usuario else '' }}"
               required 
               minlength="6">
@@ -193,8 +194,8 @@
       </div>
 
 <div class="col-md-2">
-  <label for="rol_us" class="form-label">Rol</label>
-  <select id="rol_us" class="form-select" name="rol_us" required>
+  <label for="rol" class="form-label">Rol</label>
+  <select id="rol" class="form-select" name="rol" required>
     <option value="" disabled {% if not usuario %}selected{% endif %}>-- Seleccione una opción --</option>
     <option value="Administrador" {% if usuario and usuario.rol == 'Administrador' %}selected{% endif %}>Administrador</option>
     <option value="Vendedor" {% if usuario and usuario.rol == 'Vendedor' %}selected{% endif %}>Vendedor</option>
@@ -220,10 +221,81 @@
 </div>
 
 
+<div class="modal fade" id="modalExito" tabindex="-1" aria-labelledby="modalExitoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-success">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="modalExitoLabel">¡Éxito!</h5>
+      </div>
+      <div class="modal-body">
+        Usuario editado exitosamente.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" id="cerrarModalBtn">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modalCreado" tabindex="-1" aria-labelledby="modalCreadoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-success">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="modalCreadoLabel">¡Éxito!</h5>
+      </div>
+      <div class="modal-body">
+        Usuario creado exitosamente.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" id="cerrarCreadoBtn">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  {% if usuario_editado|default(false) %}
+    var modal = new bootstrap.Modal(document.getElementById('modalExito'));
+    modal.show();
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('cerrarModalBtn').addEventListener('click', function () {
+        modal.hide();
+        window.location.href = "{{ url_for('Lista_usuarios') }}";
+      });
+    });
+  {% elif usuario_creado|default(false) %}
+    var modal = new bootstrap.Modal(document.getElementById('modalCreado'));
+    modal.show();
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('cerrarCreadoBtn').addEventListener('click', function () {
+        modal.hide();
+        window.location.href = "{{ url_for('Registro_usuarios') }}";
+      });
+    });
+  {% endif %}
+</script>
+
+
+<script>
+  // Botoncito para saber si fue exitoso la modificaion
+  {% if session.get('usuario_editado') %}
+    var modal = new bootstrap.Modal(document.getElementById('modalExito'));
+    modal.show();
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('cerrarModalBtn').addEventListener('click', function () {
+        modal.hide();
+        window.location.href = "{{ url_for('Lista_usuarios') }}";
+      });
+    });
+  {% endif %}
+</script>
+
 
 <script>
 
-  document.getElementById('Nombre_de_usu').addEventListener('input', function(e) {
+  document.getElementById('nombre').addEventListener('input', function(e) {
     const nombre = e.target.value.trim();
     
     if (nombre.length >= 15) {
@@ -237,7 +309,7 @@
 
 
 <script>
-  document.getElementById('documento_us').addEventListener('input', function () {
+  document.getElementById('documento_numero').addEventListener('input', function () {
     const valor = this.value.trim();
     const esValido = /^\d{5,}$/.test(valor) && parseInt(valor) > 0;
     
@@ -250,13 +322,13 @@
 <script>
   const hoy = new Date().toISOString().split("T")[0];
   document.getElementById("fecha_alta").value = hoy;
-  document.getElementById("fecha_nacimiento_u").setAttribute("max", hoy);
+  document.getElementById("fecha_nacimiento").setAttribute("max", hoy);
 </script>
 
 
 
 <script>
-  document.getElementById('correo_us').addEventListener('input', function () {
+  document.getElementById('email').addEventListener('input', function () {
     const correo = this.value.trim();
     const regexCorreo = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const esValido = regexCorreo.test(correo);
@@ -267,7 +339,7 @@
 </script>
 
 <script>
-  document.getElementById('numero_celular_us').addEventListener('input', function () {
+  document.getElementById('telefono').addEventListener('input', function () {
     const valor = this.value.trim();
     const esValido = /^\d{7,}$/.test(valor) && parseInt(valor) > 0;
     
@@ -277,7 +349,7 @@
 </script>
 
 <script>
-  document.getElementById('direccion_us').addEventListener('input', function () {
+  document.getElementById('direccion').addEventListener('input', function () {
     const valor = this.value.trim();
     const esValido = valor.length >= 10;
 
@@ -287,7 +359,7 @@
 </script>
 
 <script>
-  document.getElementById('ciudad_us').addEventListener('input', function () {
+  document.getElementById('ciudad').addEventListener('input', function () {
     const valor = this.value.trim();
     const esValido = valor.length >= 4;
 

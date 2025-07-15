@@ -12,7 +12,7 @@
       
 <div class="card-body">
 
-            {% with messages = get_flashed_messages(with_categories=true) %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
                 <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
@@ -29,8 +29,8 @@
   value="{{ cliente.documento_numero if cliente else '' }}">
 
     <div class="col-md-12">
-      <label for="Nombre_cliente" class="form-label">Nombre</label>
-   <input type="text" class="form-control" id="Nombre_cliente" name="Nombre_cliente"
+      <label for="nombre" class="form-label">Nombre</label>
+   <input type="text" class="form-control" id="Nombre" name="nombre"
    value="{{ cliente.nombre if cliente else '' }}">
    </div>
   
@@ -49,40 +49,41 @@
   <label for="documento_numero" class="form-label">Número de documento</label>
  <input type="number" class="form-control" id="documento_numero" name="documento_numero"
   value="{{ cliente.documento_numero if cliente else '' }}"
+  {% if cliente %}readonly{% endif %}
   placeholder="123456" step="1" min="0" required>
   </div>
       
  <div class="col-md-3">
-  <label for="fecha_nacimiento_clien" class="form-label">Fecha de nacimiento</label>
-  <input type="date" class="form-control" id="fecha_nacimiento_clien" name="fecha_nacimiento_clien"
+  <label for="fecha_nacimiento" class="form-label">Fecha de nacimiento</label>
+  <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento"
   value="{{ cliente.fecha_nacimiento if cliente else '' }}"
   placeholder="dd/mm/yyyy" required>
   </div>
 
    <div class="col-md-5">
-   <label for="correo_cliente" class="form-label">Correo electrónico</label>
-   <input type="email" class="form-control" id="correo_cliente" name = "correo_cliente"
+   <label for="email" class="form-label">Correo electrónico</label>
+   <input type="email" class="form-control" id="email" name = "email"
     value="{{ cliente.email if cliente else '' }}"
     placeholder="ejemplo@correo.com" required>
    </div>
       
   <div class="col-md-4">
-  <label for="numero_celular" class="form-label">No. Celular</label>
-  <input type="number" class="form-control" id="numero_celular" name = "numero_celular"
+  <label for="telefono" class="form-label">No. Celular</label>
+  <input type="number" class="form-control" id="telefono" name = "telefono"
    value="{{ cliente.telefono if cliente else '' }}"
   placeholder="3123456789" step="1" min="0" required>
   </div>
 
   <div class="col-md-7">
-  <label for="direccion_cliente" class="form-label">Dirección</label>
-  <input type="text" class="form-control" id="direccion_cliente" name = "direccion_cliente"
+  <label for="direccion" class="form-label">Dirección</label>
+  <input type="text" class="form-control" id="direccion" name = "direccion"
    value="{{ cliente.direccion if cliente else '' }}"
    required>
   </div>
 
   <div class="col-md-5">
   <label for="ciudad_cliente" class="form-label">Ciudad</label>
-  <input type="text" class="form-control" id="ciudad_cliente" name = "ciudad_cliente"
+  <input type="text" class="form-control" id="ciudad_cliente" name = "ciudad"
    value="{{ cliente.ciudad if cliente else '' }}"
    required>
   </div>
@@ -98,8 +99,87 @@
         </div>
       </div>
 
+<div class="modal fade" id="modalExito" tabindex="-1" aria-labelledby="modalExitoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-success">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="modalExitoLabel">¡Éxito!</h5>
+      </div>
+      <div class="modal-body">
+        Cliente editado exitosamente.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" id="cerrarModalBtn">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modalCreado" tabindex="-1" aria-labelledby="modalCreadoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-success">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="modalCreadoLabel">¡Éxito!</h5>
+      </div>
+      <div class="modal-body">
+        Cliente creado exitosamente.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" id="cerrarCreadoBtn">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <script>
-  document.getElementById('Nombre_cliente').addEventListener('input', function(e) {
+  {% if cliente_editado|default(false) %}
+    var modal = new bootstrap.Modal(document.getElementById('modalExito'));
+    modal.show();
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('cerrarModalBtn').addEventListener('click', function () {
+        modal.hide();
+        window.location.href = "{{ url_for('listar_clientes') }}";
+      });
+    });
+  {% elif cliente_creado|default(false) %}
+    var modal = new bootstrap.Modal(document.getElementById('modalCreado'));
+    modal.show();
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('cerrarCreadoBtn').addEventListener('click', function () {
+        modal.hide();
+        window.location.href = "{{ url_for('registrar_cliente') }}";
+      });
+    });
+  {% endif %}
+</script>
+
+
+<script>
+  // Botoncito para saber si fue exitoso la modificaion
+  {% if session.get('cliente_editado') %}
+    var modal = new bootstrap.Modal(document.getElementById('modalExito'));
+    modal.show();
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('cerrarModalBtn').addEventListener('click', function () {
+        modal.hide();
+        window.location.href = "{{ url_for('listar_clientes') }}";
+      });
+    });
+  {% endif %}
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+  document.getElementById('nombre').addEventListener('input', function(e) {
     const nombre = e.target.value.trim();
     
     if (nombre.length >= 15) {
@@ -125,13 +205,13 @@
 
 <script>
   const hoy = new Date().toISOString().split("T")[0];
-  document.getElementById("fecha_nacimiento_clien").setAttribute("max", hoy);
+  document.getElementById("fecha_nacimiento").setAttribute("max", hoy);
 </script>
 
 
 
 <script>
-  document.getElementById('correo_cliente').addEventListener('input', function () {
+  document.getElementById('email').addEventListener('input', function () {
     const correo = this.value.trim();
     const regexCorreo = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const esValido = regexCorreo.test(correo);
@@ -142,7 +222,7 @@
 </script>
 
 <script>
-  document.getElementById('numero_celular').addEventListener('input', function () {
+  document.getElementById('telefono').addEventListener('input', function () {
     const valor = this.value.trim();
     const esValido = /^\d{7,}$/.test(valor) && parseInt(valor) > 0;
     
@@ -152,7 +232,7 @@
 </script>
 
 <script>
-  document.getElementById('direccion_cliente').addEventListener('input', function () {
+  document.getElementById('direccion').addEventListener('input', function () {
     const valor = this.value.trim();
     const esValido = valor.length >= 10;
 
@@ -162,7 +242,7 @@
 </script>
 
 <script>
-  document.getElementById('ciudad_cliente').addEventListener('input', function () {
+  document.getElementById('ciudad').addEventListener('input', function () {
     const valor = this.value.trim();
     const esValido = valor.length >= 4;
 

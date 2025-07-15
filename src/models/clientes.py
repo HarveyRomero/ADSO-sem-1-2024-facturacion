@@ -19,9 +19,8 @@ class Cliente(ModeloBase):
         
     facturas = relationship('Factura', backref='cliente', lazy=True)
 
-
     def __init__(self, nombre, telefono, direccion, email,
-    documento_tipo, documento_numero, fecha_nacimiento, ciudad):
+                 documento_tipo, documento_numero, fecha_nacimiento, ciudad):
         self.nombre = nombre
         self.telefono = telefono
         self.direccion = direccion
@@ -32,20 +31,59 @@ class Cliente(ModeloBase):
         self.ciudad = ciudad
 
     @classmethod
-    def crear_cliente(cls,cliente):
+    def crear_cliente(cls, cliente):
         session = Session()
         session.add(cliente)
         session.commit()
+        session.close()
+        print("Session bind:", session.bind)
         return cliente
-    
+
     @classmethod
     def traer_clientes(cls):
         session = Session()
-        return session.query(cls).all()
-    
+        clientes = session.query(cls).all()
+        session.close()
+        return clientes
+
     @classmethod
     def traer_cliente_por_documento(cls, documento_numero):
         session = Session()
         cliente = session.query(cls).filter_by(documento_numero=documento_numero).first()
         session.close()
         return cliente
+
+    @classmethod
+    def editar_cliente(cls, documento_original, nuevos_datos):
+        session = Session()
+        cliente = session.query(cls).filter_by(documento_numero=documento_original).first()
+        if not cliente:
+            session.close()
+            return None
+
+        cliente.nombre = nuevos_datos.get('nombre')
+        cliente.telefono = nuevos_datos.get('telefono')
+        cliente.direccion = nuevos_datos.get('direccion')
+        cliente.email = nuevos_datos.get('email')
+        cliente.documento_tipo = nuevos_datos.get('documento_tipo')
+        cliente.documento_numero = nuevos_datos.get('documento_numero')
+        cliente.fecha_nacimiento = nuevos_datos.get('fecha_nacimiento')
+        cliente.ciudad = nuevos_datos.get('ciudad')
+
+        session.commit()
+        session.close()
+        return cliente
+
+    @classmethod
+    def eliminar_cliente(cls, documento_numero):
+        session = Session()
+        cliente = session.query(cls).filter_by(documento_numero=documento_numero).first()
+        if cliente:
+            session.delete(cliente)
+            session.commit()
+            session.close()
+            return True
+        else:
+            session.close()
+            return False
+

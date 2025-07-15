@@ -83,6 +83,7 @@
             id="codigo_producto" 
             name="codigo_producto"
             value="{{ producto.codigo_producto if producto else '' }}"
+            {% if producto %}readonly{% endif %}
             placeholder="AAA123456" 
             pattern="[A-Za-z]{3}\d{6}" 
             title="Formato: 3 letras seguidas de 6 números (Ej: ABC123456)"
@@ -164,6 +165,76 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="modalExito" tabindex="-1" aria-labelledby="modalExitoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-success">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="modalExitoLabel">¡Éxito!</h5>
+      </div>
+      <div class="modal-body">
+        Producto editado exitosamente.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" id="cerrarModalBtn">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modalCreado" tabindex="-1" aria-labelledby="modalCreadoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-success">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="modalCreadoLabel">¡Éxito!</h5>
+      </div>
+      <div class="modal-body">
+        Producto creado exitosamente.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" id="cerrarCreadoBtn">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  {% if producto_editado %}
+    var modal = new bootstrap.Modal(document.getElementById('modalExito'));
+    modal.show();
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('cerrarModalBtn').addEventListener('click', function () {
+        modal.hide();
+        window.location.href = "{{ url_for('Lista_productos') }}";
+      });
+    });
+  {% elif producto_creado %}
+    var modal = new bootstrap.Modal(document.getElementById('modalCreado'));
+    modal.show();
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('cerrarCreadoBtn').addEventListener('click', function () {
+        modal.hide();
+        window.location.href = "{{ url_for('Formulario_Producto') }}";
+      });
+    });
+  {% endif %}
+</script>
+
+
+<script>
+  // Botoncito para saber si fue exitoso la modificaion
+  {% if session.get('producto_editado') %}
+    var modal = new bootstrap.Modal(document.getElementById('modalExito'));
+    modal.show();
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('cerrarModalBtn').addEventListener('click', function () {
+        modal.hide();
+        window.location.href = "{{ url_for('Lista_productos') }}";
+      });
+    });
+  {% endif %}
+</script>
 
 
 <script>
