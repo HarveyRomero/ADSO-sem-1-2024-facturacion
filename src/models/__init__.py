@@ -19,4 +19,7 @@ metodo_pago_enum = Enum(
     name='metodo_pago'
 )
 
-
+intermediario_enum = Enum(
+    'Efecty', 'Baloto', 'Paga Todo',
+    name='intermediario'
+)

@@ -9,21 +9,30 @@
   <div class="card mb-4">
     <div class="card-header bg-primary text-white">Datos del Cliente</div>
     <div class="card-body row g-3">
-      <div class="col-md-3">
-        <label class="form-label">Documento Cliente</label>
-        <input type="number" class="form-control" name="documento_numero" id="documento_numero" required>
-      </div>
-      <div class="col-md-3">
+
+
+<input type="hidden" name="ID_Cliente" id="ID_Cliente">
+<input type="hidden" name="ID_Usuario" id="ID_Usuario">
+
+    <div class="col-md-2">
+      <label for="documento_numero" class="form-label fw-bold">Documento Cliente</label>
+      <input type="number" class="form-control border border-2 border-primary bg-light fw-bold" 
+      id="documento_numero" name="documento_numero" 
+      placeholder="123456" step="1" min="0" inputmode="numeric"
+      required>
+    </div>
+
+      <div class="col-md-4">
         <label class="form-label">Nombre</label>
-        <input type="text" class="form-control" name="nombre" id ="nombre" required>
+        <input type="text" class="form-control" name="nombre" id ="nombre" readonly>
       </div>
       <div class="col-md-3">
         <label class="form-label">Correo</label>
-        <input type="email" class="form-control" name="correo" id ="email" required>
+        <input type="email" class="form-control" name="correo" id ="email" readonly>
       </div>
       <div class="col-md-3">
         <label class="form-label">Celular</label>
-        <input type="telefono" class="form-control" name="telefono" id="telefono" required>
+        <input type="telefono" class="form-control" name="telefono" id="telefono" readonly>
       </div>
     </div>
   </div>
@@ -35,19 +44,32 @@
     <div id="productosContainer">
       <!-- Fila de producto -->
       <div class="row producto-row align-items-end mb-3">
-        <div class="col-md-3">
-          <label class="form-label">Código producto</label>
-          <input type="text" class="form-control codigo_producto" name="codigo_producto[]" required>
+        <div class="col-md-2">
+          <label for="codigo_producto" class="form-label fw-bold" >Código producto</label>
+          <input type="text" class="form-control codigo_producto border border-2 border-primary bg-light fw-bold"
+          name="codigo_producto[]" 
+          placeholder="AAA123456" 
+          pattern="[A-Za-z]{3}\d{6}" 
+          title="Formato: 3 letras seguidas de 6 números (Ej: ABC123456)"
+          required>
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Nombre producto</label>
+          <input type="text" class="form-control Nombre_de_producto" name="Nombre_de_producto[]" readonly>
         </div>
         <div class="col-md-1">
-          <label class="form-label">Cantidad</label>
-          <input type="number" class="form-control cantidad" name="producto_cantidad[]" oninput="calcularSubtotal(this)" required>
+          <label for="producto_cantidad" class="form-label fw-bold">Cantidad</label>
+          <input type="number" class="form-control cantidad border border-2 border-primary bg-light fw-bold" 
+          name="producto_cantidad[]" oninput="calcularSubtotal(this)" 
+          placeholder="123456" step="1" min="0" max="100" inputmode="numeric"
+          required>
         </div>
         <div class="col-md-2">
           <label class="form-label">Precio Unitario</label>
-          <input type="number" class="form-control precio" name="precio[]"  oninput="calcularSubtotal(this)" required>
+          <input type="number" class="form-control precio" name="precio[]"  oninput="calcularSubtotal(this)" readonly>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <label class="form-label">Subtotal</label>
           <input type="number" class="form-control subtotal" name="producto_subtotal[]" readonly value="0.00">
         </div>
@@ -64,11 +86,11 @@
       </div>
     </div>
 
-    <!-- Subtotal general -->
+    <!-- Subtotal de los productos -->
     <div class="row">
-      <div class="col-md-2 offset-md-6 text-end">
+      <div class="col-md-2 offset-md-8 text-end">
         <label class="form-label fw-bold">Subtotal productos</label>
-        <input type="number" class="form-control" id="total_final" name="total_final" readonly value="0.00">
+        <input type="number" class="form-control" id="total_parcial" name="total_parcial" readonly value="0.00">
       </div>
     </div>
   </div>
@@ -76,91 +98,82 @@
 
   <!-- DETALLES DE FACTURA -->
   <div class="card mb-4">
-    <div class="card-header bg-info text-white">Detalles de Factura</div>
+    <div class="card-header bg-info text-white">Resumen transacción</div>
     <div class="card-body row g-3">
 
-      <div class="row g-3 mb-3">
-        <div class="col-md-4">
-          <label for="ID_Factura" class="form-label">ID Factura</label>
-          <input type="number" class="form-control" id="ID_Factura" name="ID_Factura" min="1" required>
-        </div>
-        <div class="col-md-4">
-          <label for="ID_usuario" class="form-label">ID Usuario</label>
-          <input type="number" class="form-control" id="ID_usuario" name="ID_usuario" min="1" required>
-        </div>
-        <div class="col-md-4">
-          <label for="ID_cliente" class="form-label">ID Cliente</label>
-          <input type="number" class="form-control" id="ID_cliente" name="ID_cliente" required>
-        </div>
-      </div>
+  <div class="row g-3 mb-3">
+
+    <div class="col-md-6">
+      <label for="documento_numerus" class="form-label fw-bold">Documento usuario</label>
+      <input type="number"
+            class="form-control border border-2 border-primary bg-light fw-bold"
+            id="documento_numerus"
+            name="documento_numerus"
+            placeholder="123456" step="1" min="0"
+            inputmode="numeric"
+            required>
+    </div>
+
+    <div class="col-md-6">
+      <label for="usuario" class="form-label fw-bold">Usuario</label>
+      <input type="text"
+            class="form-control"
+            id="usuario"
+            name="usuario"
+            readonly>
+    </div>
+  </div>
 
       <div class="col-md-3">
-        <label for="fecha_factura" class="form-label">Fecha</label>
-        <input type="date" class="form-control" id="fecha_factura" name="fecha_factura" required>
-      </div>
-
-      <div class="col-md-3">
-        <label for="hora_factura" class="form-label">Hora</label>
-        <input type="time" class="form-control" id="hora_factura" name="hora_factura" required>
-      </div>
-
-      <div class="col-md-4 offset-md-8">
         <label class="form-label">Subtotal General</label>
-        <input type="text" class="form-control" id="totalGeneral" name="subtotal_general" readonly value="0.00">
+        <input type="number" class="form-control" id="Subtotal_general" name="Subtotal_general" readonly value="0.00">
       </div>
 
-    <div class="col-md-4 offset-md-8">
+    <div class="col-md-2">
       <label class="form-label">% IVA</label>
       <input type="number" class="form-control" id="iva"
-             name="iva" step="0.01" min="0" max="100"
-             oninput="actualizarTotal()" placeholder="0">
+             name="iva" 
+             value="19"
+             readonly>
     </div>
 
-      <div class="col-md-4 offset-md-8">
+      <div class="col-md-2">
       <label class="form-label">% Descuento</label>
       <input type="number" class="form-control" id="descuento"
-             name="descuento" step="0.01" min="0" max="100"
-             oninput="actualizarTotal()" placeholder="0">
+             name="descuento" 
+             value="5" readonly>
     </div>
 
-    <div class="col-md-3 offset-md-8">
+    <div class="col-md-5">
       <label class="form-label"><strong>Total con IVA/Desc.</strong></label>
-      <input type="text" class="form-control" id="total_final"
+      <input type="number" class="form-control" id="total_final"
              name="total_final" readonly value="0.00">
     </div>
 
   <!-- Subtotales / IVA / Descuento / Cambio EN UNA MISMA FILA -->
   <div class="row g-3 mb-3">
-    <div class="col-md-6">
+    <div class="col-md-5">
       <label class="form-label">Método de Pago</label>
-      <select id="pago" class="form-select" name="metodo_pago" required>
+      <select id="metodo_pago" class="form-select" name="metodo_pago" required>
         <option disabled selected>Seleccione</option>
         <option>Efectivo</option>
-        <option>Tarjeta Débito</option>
-        <option>Tarjeta Crédito</option>
-        <option>Transferencia</option>
+        <option>Tarjeta de crédito</option>
+        <option>Tarjeta de débito</option>
+        <option>Transferencia bancaria</option>
       </select>
     </div>
 
-    <div class="col-md-6">
-      <label class="form-label">Valor Pagado</label>
-      <input type="number" class="form-control" id="paga"
-             name="valor_pagado" step="0.01" oninput="calcularCambio()"
-             required>
+    <div class="col-md-5">
+      <label class="form-label">Con Efectivo</label>
+      <select id="intermediario" class="form-select" name="intermediario">
+        <option disabled selected>Seleccione</option>
+        <option>Efecty</option>
+        <option>Baloto</option>
+        <option>Paga Todo</option>
+      </select>
     </div>
- </div>
 
-    <div class="col-md-4 offset-md-8">
-      <label class="form-label">Cambio</label>
-      <input type="text" class="form-control" id="cambio"
-             name="cambio" readonly value="0.00">
-    </div>
-  
-
-<div class="text-center mb-4">
-    <button type="submit" class="btn btn-primary">Guardar Factura</button>
-  </div>
-
+<input type="hidden" name="clave_pago" id="clave_pago">
 
   <!-- BOTONES -->
   <div class="row mb-4">
@@ -171,9 +184,60 @@
     </div>
   </div>
 
+
+<div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title">Operación Exitosa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% if success %}
+          <p>{{ mensaje }}</p>
+          {% if es_efectivo %}
+            <div class="alert alert-info mt-3">
+              <strong>Código de pago:</strong>
+              <div class="fs-3 mt-2 text-center">{{ clave_pago }}</div>
+
+              <div class="mt-3">
+                <strong>Intermediario:</strong>
+                <div class="text-center">{{ intermediario }}</div>
+              </div>
+              
+              <p class="mt-2 mb-0">Entregue este código al cliente para que pueda realizar el pago</p>
+            </div>
+          {% endif %}
+        {% endif %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+
+
 </form>
 
+
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+// el modal para saber si fue exitoso
+document.addEventListener('DOMContentLoaded', function() {
+    {% if success %}
+    var modal = new bootstrap.Modal(document.getElementById('modalConfirmacion'));
+    modal.show();
+    
+    // Opcional: Redirigir después de cerrar el modal
+    document.getElementById('modalConfirmacion').addEventListener('hidden.bs.modal', function () {
+        window.location.href = "{{ url_for('registrar_factura') }}"; // Cambia a tu ruta deseada
+    });
+    {% endif %}
+});
+</script>
 
 
 <script>
@@ -188,8 +252,7 @@ $(document).ready(function () {
       dataType: "json",
       success: function (result) {
         console.log(result);
-
-        // Usar los ID reales del formulario
+        $("#ID_Cliente").val(result.ID_Cliente);
         $("#nombre").val(result.nombre);
         $("#telefono").val(result.telefono);
         $("#email").val(result.email);
@@ -202,28 +265,76 @@ $(document).ready(function () {
 });
 </script>
 
+<script>
+$(document).ready(function () {
+  $("#documento_numerus").change(function () {
+    let documento = $(this).val();
+
+    $.ajax({
+      type: "GET",
+      url: "/traer_usuario_por_documento/" + documento,
+      contentType: "application/json",
+      dataType: "json",
+      success: function (result) {
+        console.log(result);
+        $("#usuario").val(result.usuario);
+        $("#ID_Usuario").val(result.ID_Usuario);
+      },
+      error: function () {
+        console.log("Error al consultar el usuario.");
+      }
+    });
+  });
+});
+</script>
 
 <script>
 $(document).on("change", ".codigo_producto", function () {
-  let input = $(this);
-  let codigo = input.val();
-  let fila = input.closest(".producto-row");
+  const fila = $(this).closest(".producto-row");
+  const codigo = $(this).val();
 
+  // Con esto verifico si el codigo ya esta en una fila
+  let repetido = false;
+  $(".codigo_producto").each(function () {
+    if ($(this).val() === codigo && this !== fila.find(".codigo_producto")[0]) {
+      repetido = true;
+    }
+  });
+
+  if (repetido) {
+    alert("Este producto ya fue agregado.");
+    $(this).val(""); //limpio los campos
+    fila.find(".Nombre_de_producto").val("");
+    fila.find(".precio").val("");
+
+    return;
+  }
+
+  // Si no está repetido, traerlo de la base de datos
   $.ajax({
     type: "GET",
     url: "/traer_producto_por_codigo/" + codigo,
     contentType: "application/json",
     dataType: "json",
-      success: function (result) {
-        fila.find(".precio").val(result.precio);
-      },
+    success: function (result) {
+
+      fila.find(".Nombre_de_producto").val(result.Nombre_de_producto);
+      fila.find(".precio").val(result.precio);
+      calcularTotalParcial();
+    },
     error: function () {
       console.log("Producto no encontrado.");
-      fila.find(".precio").val(""); // Limpia campos
+      fila.find(".Nombre_de_producto").val("");
+      fila.find(".precio").val("");
     }
   });
 });
+
+
 </script>
+
+
+
 
 <!--Para crear nueva fila de productos, limpiar campos y eliminarlos si hace falta -->
 <script>
@@ -255,9 +366,20 @@ function eliminarFila(boton) {
   // Solo elimina si hay más de una fila
   if (container.querySelectorAll('.producto-row').length > 1) {
     fila.remove();
+    actualizarTotal(); // lo necesito para poder actualizar los subtotales
   } else {
     alert('Debe haber al menos un producto en la factura.');
   }
+}
+
+// con esta funcion puedo actalizar la suma de los subtotales.
+function actualizarTotal() {
+  let total = 0;
+  $(".subtotal").each(function () {
+    let subtotal = parseFloat($(this).val()) || 0;
+    total += subtotal;
+  });
+  $("#total_parcial").val(total.toFixed(2));
 }
 
 // (Opcional) Recalcular subtotal en cada fila
@@ -271,8 +393,6 @@ function calcularSubtotal(input) {
 </script>
 
 
-
-
 <!--Para calulo de subtotales cuando intgreso producto -->
 <script>
 function calcularSubtotal(input) {
@@ -281,17 +401,89 @@ function calcularSubtotal(input) {
   const precio = parseFloat(fila.querySelector('.precio').value) || 0;
   const subtotal = cantidad * precio;
   fila.querySelector('.subtotal').value = subtotal.toFixed(2);
-  calcularTotalFinal(); // Actualizar total general
+  calcularTotalParcial(); // Actualizar total general
 }
 
-function calcularTotalFinal() {
+function calcularTotalParcial() {
   let total = 0;
   document.querySelectorAll('.subtotal').forEach(input => {
     total += parseFloat(input.value) || 0;
   });
-  document.getElementById('total_final').value = total.toFixed(2);
+  document.getElementById('total_parcial').value = total.toFixed(2);
+  document.getElementById('Subtotal_general').value = total.toFixed(2);
+
+  calcularTotalFinal();
 }
 </script>
+
+<script>
+function calcularTotalFinal() {
+  const subtotal = parseFloat(document.getElementById("Subtotal_general").value) || 0;
+  const iva = parseFloat(document.getElementById("iva").value) || 0;
+  const descuento = parseFloat(document.getElementById("descuento").value) || 0;
+
+  const conIva = subtotal + (subtotal * iva / 100);
+  const conDescuento = conIva - (conIva * descuento / 100);
+
+  document.getElementById("total_final").value = conDescuento.toFixed(2);
+}
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const metodoPago = document.getElementById("metodo_pago");
+  const intermediario = document.getElementById("intermediario");
+
+  metodoPago.addEventListener("change", function () {
+    if (metodoPago.value === "Efectivo") {
+      intermediario.disabled = false;
+    } else {
+      intermediario.disabled = true;
+      intermediario.value = ""; // Limpia la selección si se cambia el método
+    }
+  });
+});
+</script>
+
+
+<!--control de entradas-->
+
+<script>
+  document.getElementById('documento_numero').addEventListener('input', function () {
+    const valor = this.value.trim();
+    const esValido = /^\d{5,}$/.test(valor) && parseInt(valor) > 0;
+    
+    this.classList.toggle('is-valid', esValido);
+    this.classList.toggle('is-invalid', !esValido);
+  });
+</script>
+
+<script>
+  document.getElementById('documento_numerus').addEventListener('input', function () {
+    const valor = this.value.trim();
+    const esValido = /^\d{5,}$/.test(valor) && parseInt(valor) > 0;
+    
+    this.classList.toggle('is-valid', esValido);
+    this.classList.toggle('is-invalid', !esValido);
+  });
+</script>
+
+
+<script>
+  document.getElementById('codigo_producto').addEventListener('input', function(e) {
+    const codigo = e.target.value;
+    const regex = /^[A-Za-z]{3}\d{6}$/;
+    
+    if (regex.test(codigo)) {
+      e.target.classList.remove('is-invalid');
+      e.target.classList.add('is-valid');
+    } else {
+      e.target.classList.remove('is-valid');
+    }
+  });
+</script>
+
+
 
 {% endblock contenido %}
 

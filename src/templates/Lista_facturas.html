@@ -7,100 +7,41 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Fecha alta</th>
-            <th scope="col">Valor</th>
-            <th scope="col">Cliente</th>
-            <th scope="col">Documento Cliente</th>
-
-            <th scope="col">Producto</th>
-            <th scope="col">cantidad</th>
-            <th scope="col">Ciudad</th>
-            <th scope="col">Celular</th>
+            <th scope="col">Fecha factura</th>
             <th scope="col">Usuario</th>
-            <th scope="col">Clave</th>
-            <th scope="col">Rol</th>
+            <th scope="col">Tipo Documento Cliente</th>
+            <th scope="col">Documento Cliente</th>
+            <th scope="col">Nombre cliente</th>
+            <th scope="col">Productos</th>
+            <th scope="col">Total</th>
+            <th scope="col">Tipo de Pago</th>
             <th scope="col">Acciones</th>
           </tr>
         </thead>
         <tbody class="table-group-divider">
-          <tr>
-            <th scope="row">1</th>
-            <td>Cedula de ciudadania</td>
-            <td>12300456</td>
-            <td>Lorenzo Karman Lopez</td>
-            <td>01/02/2025</td>
-            <td>07/01/1966</td>
-            <td>Cl 10 # 21 77</td>
-            <td>Bogota</td>
-            <td>3187946258</td>
-            <td>elamigo10</td>
-            <td>elpatroncito20</td>
-            <td>Administrador</td>
-            <td>
-              <button class="btn btn-warning btn-sm">Editar</button>
-              <button class="btn btn-danger btn-sm">Borrar</button>
-            </td>
-          </tr>
-        </thead>
-        <tbody class="table-group-divider">
-          <tr>
-            <th scope="row">2</th>
-            <td>Cedula de ciudadania</td>
-            <td>1032654985</td>
-            <td>Andrea Yulima Rodriguez</td>
-            <td>03/15/2025</td>
-            <td>03/18/1993</td>
-            <td>Kr 120 # 11 11</td>
-            <td>Bogota</td>
-            <td>3057319852</td>
-            <td>lavende01</td>
-            <td>lamejorvnd-12</td>
-            <td>Vendedor</td>
-            <td>
-              <button class="btn btn-warning btn-sm">Editar</button>
-              <button class="btn btn-danger btn-sm">Borrar</button>
-            </td>
-          </tr>
-        </thead>
-        <tbody class="table-group-divider">
-          <tr>
-            <th scope="row">2</th>
-            <td>Cedula de extranjeria</td>
-            <td>85964712</td>
-            <td>Josele Martin Calamardin</td>
-            <td>03/20/2025</td>
-            <td>11/20/1997</td>
-            <td>cl 12 sur # 15 -45</td>
-            <td>Bogota</td>
-            <td>3119461253</td>
-            <td>elvende02</td>
-            <td>elven_jose12</td>
-            <td>Vendedor</td>
-            <td>
-              <button class="btn btn-warning btn-sm">Editar</button>
-              <button class="btn btn-danger btn-sm">Borrar</button>
-            </td>
-          </tr>
-          <tbody class="table-group-divider">
-            <tr>
-              <th scope="row">2</th>
-              <td>Pasaporte</td>
-              <td>7149368</td>
-              <td>Jose Vela Goyes</td>
-              <td>02/12/2025</td>
-              <td>01/02/2000</td>
-              <td>cl 52  # 85-21</td>
-              <td>Soacha</td>
-              <td>3029719735</td>
-              <td>Joselulu_10</td>
-              <td>elmerojose_96</td>
-              <td>Bodega</td>
-              <td>
-                <button class="btn btn-warning btn-sm">Editar</button>
-                <button class="btn btn-danger btn-sm">Borrar</button>
-              </td>
-            </tr>
-</tbody>
+ {% for f in facturas %}
+    <tr>
+      <td>{{ f.id }}</td>
+      <td>{{ f.fecha }}</td>
+      <td>{{ f.usuario }}</td>
+      <td>{{ f.documento_tipo }}</td>
+      <td>{{ f.documento_numero }}</td>
+      <td>{{ f.nombre_cliente }}</td>
+      <td>
+        <ul>
+          {% for p in f.productos %}
+            <li>{{ p }}</li>
+          {% endfor %}
+        </ul>
+      </td>
+      <td>${{ f.total }}</td>
+      <td>{{ f.pago }}</td>
+      <td>
+        <a href="{{ url_for('detalle_factura', id_factura=f.id) }}" class="btn btn-sm btn-primary">Ver detalles</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
 
 {% endblock contenido %}

@@ -1,0 +1,107 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/css/bootstrap.min.css') }}">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .factura-info p {
+      margin: 4px 0;
+      font-size: 16px;
+    }
+
+    table th, table td {
+      vertical-align: middle;
+    }
+
+    .total {
+      font-size: 24px;
+      font-weight: bold;
+      text-align: right;
+      margin-top: 20px;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+
+      body {
+        margin: 0;
+        font-size: 12pt;
+      }
+
+      .total {
+        font-size: 20pt;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="text-center mb-4">
+    <img src="{{ url_for('static', filename='images/logofactura.png') }}" alt="CampaTech Logo" style="width: 20%; height: auto;">
+  </div>
+
+  <h2 class="center">Detalle de Factura #{{ factura.ID_factura }}</h2>
+
+  <div class="factura-info mb-4">
+    <p><strong>Usuario que atendió:</strong> {{ usuario.usuario }}</p>
+    <p><strong>Tipo documento cliente:</strong> {{ cliente.documento_tipo }}</p>
+    <p><strong>Número documento cliente:</strong> {{ cliente.documento_numero }}</p>
+    <p><strong>Cliente:</strong> {{ cliente.nombre }}</p>
+    <p><strong>Fecha:</strong> {{ factura.fecha }} - {{ factura.hora }}</p>
+    <p><strong>Método de pago:</strong> {{ tipo_pago.metodoPago }}</p>
+    <p><strong>Intermediario de pago:</strong> {{ tipo_pago.intermediario_pago }}</p>
+  </div>
+
+  <h4 class="mb-3">Productos:</h4>
+  <table class="table table-bordered">
+    <thead class="table-light">
+      <tr>
+        <th>Producto</th>
+        <th class="text-center">Cantidad</th>
+        <th class="text-end">Subtotal</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for detalle in detalles %}
+      <tr>
+        <td>{{ detalle.producto.Nombre_de_producto }}</td>
+        <td class="text-center">{{ detalle.cantidad }}</td>
+        <td class="text-end">
+          ${{ "{:,.2f}".format(detalle.subtotal).replace(",", "X").replace(".", ",").replace("X", ".") }}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <p class="center fs-6">IVA = 19%</p>
+  <p class="center fs-6">Descuento = 5%</p>
+
+  <p class="total">TOTAL: ${{ "{:,.2f}".format(factura.valor).replace(",", "X").replace(".", ",").replace("X", ".") }}</p>
+
+  <div class="text-end mt-4">
+    <button class="btn btn-primary no-print" onclick="window.print()">Imprimir Factura</button>
+</div>
+
+<div class="text-end mt-2">
+  <a onclick="window.location.href='/'" class="btn btn-secondary no-print">Salir</a>
+</div>
+
+</body>
