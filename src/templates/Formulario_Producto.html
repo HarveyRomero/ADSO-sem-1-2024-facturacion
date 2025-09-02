@@ -31,6 +31,7 @@
 
         <form method="POST" action="/Formulario_Producto.html" class="row g-3" novalidate>
 
+
           {% if producto %}
             <input type="hidden" name="ID_Producto" value="{{ producto.ID_Producto }}">
           {% endif %}
@@ -43,7 +44,7 @@
               class="form-control" 
               id="Nombre_de_producto" 
               name="Nombre_de_producto"
-              value="{{ producto.Nombre_de_producto if producto else '' }}"
+              value="{% if producto %}{{ producto.Nombre_de_producto if producto.Nombre_de_producto is defined else '' }}{% endif %}"
               required
               minlength="3"
               maxlength="100">
@@ -62,7 +63,7 @@
             class="form-control" 
             id="Descripcion_de_producto"
             name="Descripcion_de_producto"
-            value="{{ producto.Descripcion_de_producto if producto else '' }}"
+            value="{% if producto %}{{ producto.Descripcion_de_producto if producto.Descripcion_de_producto is defined else '' }}{% endif %}"
             required
             minlength="10"
             maxlength="120"
@@ -82,8 +83,7 @@
             class="form-control" 
             id="codigo_producto" 
             name="codigo_producto"
-            value="{{ producto.codigo_producto if producto else '' }}"
-            {% if producto %}readonly{% endif %}
+            value="{% if producto %}{{ producto.codigo_producto if producto.codigo_producto is defined else '' }}{% endif %}"
             placeholder="AAA123456" 
             pattern="[A-Za-z]{3}\d{6}" 
             title="Formato: 3 letras seguidas de 6 números (Ej: ABC123456)"
@@ -100,7 +100,13 @@
     <option disabled selected value="">Seleccione una categoría</option>
 {% for categoria in categorias %}
   <option value="{{ categoria.id }}"
-    {% if producto and categoria.id == producto.categoria_id %}selected{% endif %}>
+    {% if producto %}
+      {% if producto is mapping %}
+       {% if producto.categoria_id | string == categoria.id | string %}selected{% endif %}
+      {% else %}
+           {% if producto.categoria_id == categoria.id %}selected{% endif %}
+        {% endif %}
+       {% endif %}>
     {{ categoria.nombre }}
   </option>
 {% endfor %}
@@ -116,7 +122,7 @@
               class="form-control" 
               id="cantidad" 
               name="cantidad"
-              value="{{ producto.cantidad if producto else '' }}"
+              value="{% if producto %}{{ producto.cantidad if producto.cantidad is defined else '' }}{% endif %}"
               placeholder="1" 
               step="1" 
               min="1"  
@@ -140,7 +146,7 @@
               class="form-control" 
               id="precio" 
               name="precio"
-              value="{{ producto.precio if producto else '' }}"
+              value="{% if producto %}{{ producto.precio if producto.precio is defined else '' }}{% endif %}"
               placeholder="00.00" 
               step="0.01" 
               min="10"  

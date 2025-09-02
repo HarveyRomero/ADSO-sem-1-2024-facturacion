@@ -53,6 +53,13 @@ class Producto(ModeloBase):
         producto = session.query(cls).filter_by(ID_Producto=id_producto).first()
         session.close()
         return producto
+    
+    @classmethod
+    def traer_producto_por_nombre(cls, nombre):
+        session = Session()
+        producto = session.query(cls).filter_by(Nombre_de_producto=nombre).first()
+        session.close()
+        return producto
 
     @classmethod
     def editar_producto(cls, id_producto, nuevos_datos):

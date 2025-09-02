@@ -16,73 +16,117 @@ class UsuariosController(FlaskController):
         usuario_editado = session.pop('usuario_editado', None)
         usuario_creado = session.pop('usuario_creado', None)
         usuario = None
-    
-        if request.method == 'POST':
 
+ # Obtener cliente si estamos editando
+        id_edicion = request.args.get('id') or session.pop('editing_usuario_id', None)
+        if id_edicion:
+            usuario = Usuario.traer_usuario_por_id(int(id_edicion))
+
+        if request.method == 'POST':
+            # Obtener todos los campos
             documento_numero = request.form.get('documento_numero')
+            nombre = request.form.get('nombre')
+            telefono = request.form.get('telefono')
+            email = request.form.get('email')
+            usuario_name = request.form.get('usuario')
+            contraseña = request.form.get('contraseña')
+            rol = request.form.get('rol')
+            documento_tipo = request.form.get('documento_tipo')
+            fecha_nacimiento = request.form.get('fecha_nacimiento')
+            ciudad = request.form.get('ciudad')
+            direccion = request.form.get('direccion')
+
             usuario_existente = Usuario.traer_usuario_por_documento(documento_numero)
 
             try:
                 id_usuario = request.form.get('ID_Usuario')
+                # Si yo renderize desde editar habra un Id original  sino nadita
                 id_usuario = int(id_usuario) if id_usuario else None
 
-                datos_usuario = {
-                    'nombre': request.form.get('nombre'),
-                    'telefono': int(request.form.get('telefono')),
-                    'direccion': request.form.get('direccion'),
-                    'email': request.form.get('email'),
-                    'usuario': request.form.get('usuario'),
-                    'contraseña': request.form.get('contraseña'),
-                    'rol': request.form.get('rol'),
-                    'fecha_alta': date.today(),
-                    'documento_tipo': request.form.get('documento_tipo'),
-                    'documento_numero': documento_numero,
-                    'fecha_nacimiento': date.fromisoformat(request.form.get('fecha_nacimiento')),
-                    'ciudad': request.form.get('ciudad')
-                }
-                if id_usuario:
-                    if usuario_existente and int(id_usuario) != usuario_existente.ID_Usuario:
-                        flash('Ya existe un usuario con ese numero de documento.', 'danger')
-                        return redirect(url_for('Registro_usuarios'))
-                    usuario = Usuario.editar_usuario(id_usuario, datos_usuario)
+                 # valido cuando estoy editando si existe o no 
+                 # en base de datos otro usurio con ese id 
+                if id_usuario:  # Editando
+                    if usuario_existente and usuario_existente.ID_Usuario != id_usuario:
+                        flash('Ya existe un usuario con ese número de documento.', 'danger')
+                        # Mantener todos los datos del formulario
+                        return render_template(
+                            'Registro_usuarios.html',
+                            usuario=request.form,
+                            usuario_editado=False,
+                            usuario_creado=False
+                        )
 
+                else:  # Verifico si ya existe un usurio con ese ID
+                    if usuario_existente:
+                        flash('Ya existe un usuario con ese número de documento.', 'danger')
+                        return render_template(
+                            'Registro_usuarios.html',
+                            # renderizo y asigno los valores que estan en el reqets a usuario
+                            usuario=request.form,
+                            usuario_editado=False,
+                            usuario_creado=False
+                        )
+
+                # Guardo en variable bien sea para crear o editar.
+                datos_usuario = {
+                    'nombre': nombre,
+                    'telefono': int(telefono) if telefono else None,
+                    'direccion': direccion,
+                    'email': email,
+                    'usuario': usuario_name,
+                    'contraseña': contraseña,
+                    'rol': rol,
+                    'fecha_alta': date.today(),
+                    'documento_tipo': documento_tipo,
+                    'documento_numero': documento_numero,
+                    'fecha_nacimiento': date.fromisoformat(fecha_nacimiento) if fecha_nacimiento else None,
+                    'ciudad': ciudad
+                }
+
+                if id_usuario:
+                    # uso la funcion editar enviando id y el todos los datos
+                    usuario = Usuario.editar_usuario(id_usuario, datos_usuario)
                     if usuario:
                         session['usuario_editado'] = True
                         return redirect(url_for('Registro_usuarios'))
-
                     else:
                         flash('Usuario no encontrado para editar.', 'danger')
                         return redirect(url_for('Lista_usuarios'))
-                else:
-                    if usuario_existente:
-                        flash('Ya existe un usuario con ese numero de documento.', 'danger')
-                        return redirect(url_for('Registro_usuarios'))
 
+                else:   # Crear usanso la funcion crear usuario
                     nuevo_usuario = Usuario(**datos_usuario)
                     Usuario.crear_usuario(nuevo_usuario)
                     session['usuario_creado'] = True
-
-                return redirect(url_for('Registro_usuarios'))
-            
+                    return redirect(url_for('Registro_usuarios'))
+                
             except Exception as e:
-                flash(f'Ocurrió un error al guardar el producto: {str(e)}', 'danger')
-
+                flash(f'Ocurrió un error al guardar el usuario: {str(e)}', 'danger')
+                return render_template(
+                    'Registro_usuarios.html',
+                    usuario=request.form,
+                    usuario_editado=False,
+                    usuario_creado=False
+                )
+                # --- RENDERIZADO DEL FORMULARIO (GET) ---
         return render_template(
             'Registro_usuarios.html',
-            usuario=usuario,
-            usuario_editado = usuario_editado,
-            usuario_creado = usuario_creado
+            usuario=usuario,  # Puede ser None, objeto Usuario o request.form
+            usuario_editado=usuario_editado,
+            usuario_creado=usuario_creado
         )
-
+        
     
-    @app.route('/editar_usuario/<int:documento_numero>', methods=['GET'])
-    def editar_usuario(documento_numero):
-        usuario = Usuario.traer_usuario_por_documento(documento_numero)
+    @app.route('/editar_usuario/<int:id_usuario>', methods=['GET'])
+    def editar_usuario(id_usuario):
+        usuario = Usuario.traer_usuario_por_id(id_usuario)
         
         if not usuario:
             flash('Usuario no encontrado.', 'danger')
             return redirect(url_for('Lista_usuarios'))
 
+        # Guardar ID en session para persistir en caso de error POST
+        session['editing_usuario_id'] = id_usuario
+        
         return render_template('Registro_usuarios.html', usuario=usuario)
 
     

@@ -43,7 +43,7 @@
              <label for="nombre" class="form-label">Nombre del usuario</label>
              <input 
               type="text" class="form-control" id="nombre" name="nombre"
-              value="{{ usuario.nombre if usuario else '' }}"
+              value="{{ usuario.nombre if usuario and usuario.nombre is defined else '' }}"
               minlength="15"  maxlength="100"  required>
               <div class="invalid-feedback">
                 Por favor ingresa un nombre válido (mínimo 15 caracteres)
@@ -72,8 +72,7 @@
     <div class="col-md-3">
         <label for="documento_numero" class="form-label">Documento</label>
         <input type="number" class="form-control" id="documento_numero" name="documento_numero" 
-          value="{{ usuario.documento_numero if usuario else '' }}"
-          {% if usuario %}readonly{% endif %}
+          value="{{ usuario.documento_numero if usuario and usuario.documento_numero is defined else '' }}"
           placeholder="12345" step="1"  min="1"required >
       <div class="invalid-feedback">
         Por favor ingrese un número de documento válido (mínimo 5 dígitos).
@@ -89,7 +88,7 @@
       type="date" 
       class="form-control" 
       id="fecha_nacimiento"
-      value="{{ usuario.fecha_nacimiento if usuario else '' }}" 
+      value="{{ usuario.fecha_nacimiento if usuario and usuario.fecha_nacimiento is defined else '' }}"
       name="fecha_nacimiento"
       placeholder="dd/mm/yyyy"
       required
@@ -106,7 +105,7 @@
         class="form-control" 
         id="email" 
         name="email"
-        value="{{ usuario.email if usuario else '' }}" 
+        value="{{ usuario.email if usuario and usuario.email is defined else '' }}"
         placeholder="ejemplo@correo.com" 
         required
       >
@@ -121,7 +120,7 @@
     <div class="col-md-3">
         <label for="telefono" class="form-label">No. Celular</label>
         <input type="number" class="form-control" id="telefono" name = "telefono"
-        value="{{ usuario.telefono if usuario else '' }}"
+        value="{{ usuario.telefono if usuario and usuario.telefono is defined else '' }}"
         autocomplete="off" placeholder="1234567" step="1" min="1"
         required>
         <div class="invalid-feedback">
@@ -137,7 +136,7 @@
         <label for="direccion" class="form-label">Dirección</label>
         <input 
           type="text" class="form-control" id="direccion" name="direccion"
-          value="{{ usuario.direccion if usuario else '' }}" 
+          value="{{ usuario.direccion if usuario and usuario.direccion is defined else '' }}"
           required 
           minlength="10">
         <div class="invalid-feedback">
@@ -151,7 +150,7 @@
         <div class="col-3">
             <label for="ciudad" class="form-label">Ciudad</label>
             <input type="text" class="form-control" id="ciudad" name="ciudad"
-            value="{{ usuario.ciudad if usuario else '' }}"
+            value="{{ usuario.ciudad if usuario and usuario.ciudad is defined else '' }}"
           required 
           minlength="4"
             required>
@@ -166,7 +165,7 @@
         <div class="col-3">
           <label for="usuario" class="form-label">Usuario</label>
           <input type="text" class="form-control" id="usuario" name="usuario"
-          value="{{ usuario.usuario if usuario else '' }}" 
+          value="{{ usuario.usuario if usuario and usuario.usuario is defined else '' }}"
           required>
         <div class="invalid-feedback">
           El usuario debe ser de minimo 7 caracteres.
@@ -182,7 +181,7 @@
               class="form-control" 
               id="contraseña" 
               name="contraseña"
-              value="{{ usuario.contraseña if usuario else '' }}"
+              value="{{ usuario.contraseña if usuario and usuario.contraseña is defined else '' }}"
               required 
               minlength="6">
         <div class="invalid-feedback">

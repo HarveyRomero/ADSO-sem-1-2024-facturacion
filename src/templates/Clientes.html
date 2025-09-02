@@ -31,7 +31,8 @@
     <div class="col-md-12">
       <label for="nombre" class="form-label">Nombre</label>
    <input type="text" class="form-control" id="Nombre" name="nombre"
-   value="{{ cliente.nombre if cliente else '' }}">
+   value="{% if cliente %}{{ cliente.nombre if cliente.nombre is defined else '' }}{% endif %}"
+   >
    </div>
   
 <div class="col-md-2">
@@ -48,43 +49,42 @@
  <div class="col-md-10">
   <label for="documento_numero" class="form-label">Número de documento</label>
  <input type="number" class="form-control" id="documento_numero" name="documento_numero"
-  value="{{ cliente.documento_numero if cliente else '' }}"
-  {% if cliente %}readonly{% endif %}
+  value="{% if cliente %}{{ cliente.documento_numero if cliente.documento_numero is defined else '' }}{% endif %}"
   placeholder="123456" step="1" min="0" required>
   </div>
       
  <div class="col-md-3">
   <label for="fecha_nacimiento" class="form-label">Fecha de nacimiento</label>
   <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento"
-  value="{{ cliente.fecha_nacimiento if cliente else '' }}"
+  value="{% if cliente %}{{ cliente.fecha_nacimiento if cliente.fecha_nacimiento is defined else '' }}{% endif %}"
   placeholder="dd/mm/yyyy" required>
   </div>
 
    <div class="col-md-5">
    <label for="email" class="form-label">Correo electrónico</label>
    <input type="email" class="form-control" id="email" name = "email"
-    value="{{ cliente.email if cliente else '' }}"
+    value="{% if cliente %}{{ cliente.email if cliente.email is defined else '' }}{% endif %}"
     placeholder="ejemplo@correo.com" required>
    </div>
       
   <div class="col-md-4">
   <label for="telefono" class="form-label">No. Celular</label>
   <input type="number" class="form-control" id="telefono" name = "telefono"
-   value="{{ cliente.telefono if cliente else '' }}"
+   value="{% if cliente %}{{ cliente.telefono if cliente.telefono is defined else '' }}{% endif %}"
   placeholder="3123456789" step="1" min="0" required>
   </div>
 
   <div class="col-md-7">
   <label for="direccion" class="form-label">Dirección</label>
   <input type="text" class="form-control" id="direccion" name = "direccion"
-   value="{{ cliente.direccion if cliente else '' }}"
+   value="{% if cliente %}{{ cliente.direccion if cliente.direccion is defined else '' }}{% endif %}"
    required>
   </div>
 
   <div class="col-md-5">
   <label for="ciudad_cliente" class="form-label">Ciudad</label>
   <input type="text" class="form-control" id="ciudad_cliente" name = "ciudad"
-   value="{{ cliente.ciudad if cliente else '' }}"
+   value="{% if cliente %}{{ cliente.ciudad if cliente.ciudad is defined else '' }}{% endif %}"
    required>
   </div>
       

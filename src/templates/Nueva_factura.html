@@ -37,12 +37,12 @@
     </div>
   </div>
 
-<!-- DETALLE DE PRODUCTOS -->
+<!-- de cada productico-->
 <div class="card mb-4">
   <div class="card-header bg-success text-white">Productos</div>
   <div class="card-body">
     <div id="productosContainer">
-      <!-- Fila de producto -->
+      <!-- Filas para productos -->
       <div class="row producto-row align-items-end mb-3">
         <div class="col-md-2">
           <label for="codigo_producto" class="form-label fw-bold" >Código producto</label>
@@ -79,7 +79,7 @@
       </div>
     </div>
 
-    <!-- Botón para agregar producto -->
+    <!--Boton para agregar cada productico -->
     <div class="row mb-3">
       <div class="col-md-2">
         <button type="button" class="btn btn-outline-success" onclick="agregarProducto()">+ Agregar producto</button>
@@ -96,7 +96,7 @@
   </div>
 </div>
 
-  <!-- DETALLES DE FACTURA -->
+  <!-- Seccion para detalles de factura -->
   <div class="card mb-4">
     <div class="card-header bg-info text-white">Resumen transacción</div>
     <div class="card-body row g-3">
@@ -241,6 +241,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 <script>
+  // con esto traigo los datos de los clientes cuando pongo el documento
+  // solo tare los datos que pido en este segmento
 $(document).ready(function () {
   $("#documento_numero").change(function () {
     let documento = $(this).val();
@@ -266,6 +268,7 @@ $(document).ready(function () {
 </script>
 
 <script>
+  // con esto traigo los datos de usurio para la factura
 $(document).ready(function () {
   $("#documento_numerus").change(function () {
     let documento = $(this).val();
@@ -351,7 +354,7 @@ function agregarProducto() {
     input.value = (input.name === 'producto_subtotal[]') ? "0.00" : "";
   });
 
-  // Asegúrate de quitar IDs duplicados para evitar conflictos
+  // quito los  IDs duplicados para evitar conflictos
   nuevaFila.querySelectorAll('[id]').forEach(el => {
     el.removeAttribute('id');
   });
@@ -446,7 +449,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-<!--control de entradas-->
+<!--Crontol de valores para verificar que sean correctos-->
 
 <script>
   document.getElementById('documento_numero').addEventListener('input', function () {

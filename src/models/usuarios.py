@@ -84,6 +84,7 @@ class Usuario(ModeloBase):
         usuario.contraseña = nuevos_datos.get('contraseña')
         usuario.rol = nuevos_datos.get('rol')
         usuario.documento_tipo = nuevos_datos.get('documento_tipo')
+        usuario.documento_numero = nuevos_datos.get('documento_numero')
         usuario.fecha_nacimiento = nuevos_datos.get('fecha_nacimiento')
         usuario.ciudad = nuevos_datos.get('ciudad')
 
