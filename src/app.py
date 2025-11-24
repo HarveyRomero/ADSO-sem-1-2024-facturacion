@@ -12,7 +12,7 @@ import src.models.usuarios
 import src.models.facturas
 import src.models.TipoPago
 
-from src.models.categorias import Categoria  # hace nueva importacionm limpiecita ome
+from src.models.categorias import Categoria  # hace nueva importacion limpiecita ome
 
 # Crear tablas si no existen
 ModeloBase.metadata.create_all(engine)
