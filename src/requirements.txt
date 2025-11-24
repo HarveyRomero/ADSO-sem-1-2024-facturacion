@@ -1,6 +1,0 @@
-flask
-flask-controller
-sqlalchemy
-pymysql
-python-dotenv
-werkzeug
